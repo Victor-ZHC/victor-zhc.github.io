@@ -1,1 +1,3 @@
 User-agent: *
+Disallow:
+Sitemap: https://victor-zhc.github.io/sitemap.xml
