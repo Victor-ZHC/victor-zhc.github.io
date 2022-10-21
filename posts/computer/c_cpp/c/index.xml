@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>C on Victor&#39;s Blog</title>
+    <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/</link>
+    <description>Recent content in C on Victor&#39;s Blog</description>
+    <image>
+      <url>https://victor-zhc.github.io/papermod-cover.png</url>
+      <link>https://victor-zhc.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 21 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/posts/computer/c_cpp/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>简介</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/introduction/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/introduction/</guid>
+      <description>运行Hello World</description>
+    </item>
+    
+    <item>
+      <title>关键字</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/key_word/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/key_word/</guid>
+      <description>很关键</description>
+    </item>
+    
+    <item>
+      <title>输入输出</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/io/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/io/</guid>
+      <description>输出你想要的格式</description>
+    </item>
+    
+    <item>
+      <title>运算符</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/operator/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/operator/</guid>
+      <description>原来加减乘除还有这么多门道</description>
+    </item>
+    
+    <item>
+      <title>控制语句</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/control_statements/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/control_statements/</guid>
+      <description>基本操作</description>
+    </item>
+    
+    <item>
+      <title>基本类型</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/basic_types/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/basic_types/</guid>
+      <description>种类还挺多</description>
+    </item>
+    
+    <item>
+      <title>数组</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/array/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/array/</guid>
+      <description>就是很多组数</description>
+    </item>
+    
+    <item>
+      <title>函数</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/function/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/function/</guid>
+      <description>很有内涵</description>
+    </item>
+    
+    <item>
+      <title>作用域</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/scope/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/scope/</guid>
+      <description>不能出界呦</description>
+    </item>
+    
+    <item>
+      <title>指针</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/pointer/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/pointer/</guid>
+      <description>搞定它就搞定了C语言</description>
+    </item>
+    
+    <item>
+      <title>字符串</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/string/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/string/</guid>
+      <description>不就是char数组吗？！</description>
+    </item>
+    
+    <item>
+      <title>预处理器</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/preprocessor/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/preprocessor/</guid>
+      <description>在高手手里会变得很强大</description>
+    </item>
+    
+    <item>
+      <title>编写大型程序</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/project/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/project/</guid>
+      <description>其实也很麻烦</description>
+    </item>
+    
+    <item>
+      <title>结构、联合与枚举</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/struct_union_enum/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/struct_union_enum/</guid>
+      <description>面向对象的雏形</description>
+    </item>
+    
+    <item>
+      <title>声明</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/statement/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/statement/</guid>
+      <description>更加深层次的理解语言</description>
+    </item>
+    
+    <item>
+      <title>底层程序设计</title>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/low_level_programming/</link>
+      <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/low_level_programming/</guid>
+      <description>用对了可以更高效</description>
+    </item>
+    
+  </channel>
+</rss>
