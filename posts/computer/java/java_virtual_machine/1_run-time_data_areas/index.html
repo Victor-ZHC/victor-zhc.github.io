@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>运行时数据区域 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA, Java虚拟机">
+<meta name="description" content="原来它们都在这些地方">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="运行时数据区域" />
+<meta property="og:description" content="原来它们都在这些地方" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="运行时数据区域"/>
+<meta name="twitter:description" content="原来它们都在这些地方"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java虚拟机",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "运行时数据区域",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "运行时数据区域",
+  "name": "运行时数据区域",
+  "description": "原来它们都在这些地方",
+  "keywords": [
+    "JAVA", "Java虚拟机"
+  ],
+  "articleBody": " 程序计数器（Program Counter Register） 是一块较小的内存空间，是当前线程所执行的字节码的行号指示器 线程私有的 执行Java方法时，记录字节码指令的地址；执行Native方法时，值为空（Undefined） 是唯一在Java虚拟机规范中没有定义OutOfMemoryError情况的区域 Java虚拟机栈（Java Virtual Machine Stacks） 生命周期与线程相同 线程私有的 每个方法被执行的时候都会同时创建一个栈帧（Stack Frame）用于存储： 局部变量表 以Slot为最小单位 能存放：boolean、byte、char、short、int、float、long、double、reference（对象引用）、returnAddress（指向一条字节码指令的地址）类型 long、double将占用2个Slot 操作数栈 与局部变量表相似，但是不是依靠索引访问，而是通过入栈、出栈来访问 动态链接 方法出口 当线程请求的栈深度大于虚拟机允许的深度时，将抛出StackOverFlowError异常 当虚拟机栈在动态扩展时无法申请到足够的空间时，将会抛出OutOfMemoryError异常 本地方法栈（Native Method Stack） 线程私有的 执行Native方法所用 对数据结构没有具体要求 会抛出StackOverFlowError异常、OutOfMemoryError异常 Java堆（Heap） 虚拟机启动时被创建 被所有线程共享 几乎所有的对象实例在堆中分配内存 垃圾收集器管理的主要区域 逻辑上连续的空间 如无内存完成实例分配，并且堆无法再扩展时，将抛出OutOfMemoryError异常 方法区（Method Area） 线程共享的内存区域 加载类信息、常量、静态变量、即时编译器编译后的代码等数据 此区域的垃圾回收行为很少出现 无法满足内存分配需求时，将抛出OutOfMemoryError异常 运行时常量池（Runtime Constant Pool） 是方法区的一部分 用于存放编译器生成的各种字面量和符号引用 常量池无法申请到内存时会抛出OutOfMemoryError异常 直接内存（Direct Memory） 不是虚拟机运行时数据区的一部分 NIO类引入了基于通道（Channel）与缓冲区（Buffer）的I/O方式，使用Native方法直接在堆外内存直接分配内存 当所有内存与直接内存的总和大于物理内存时，将抛出OutOfMemoryError异常 ",
+  "wordCount" : "56",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/">Java虚拟机</a></div>
+    <h1 class="post-title">
+      运行时数据区域
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%a8%8b%e5%ba%8f%e8%ae%a1%e6%95%b0%e5%99%a8program-counter-register" aria-label="程序计数器（Program Counter Register）">程序计数器（Program Counter Register）</a></li>
+                <li>
+                    <a href="#java%e8%99%9a%e6%8b%9f%e6%9c%ba%e6%a0%88java-virtual-machine-stacks" aria-label="Java虚拟机栈（Java Virtual Machine Stacks）">Java虚拟机栈（Java Virtual Machine Stacks）</a></li>
+                <li>
+                    <a href="#%e6%9c%ac%e5%9c%b0%e6%96%b9%e6%b3%95%e6%a0%88native-method-stack" aria-label="本地方法栈（Native Method Stack）">本地方法栈（Native Method Stack）</a></li>
+                <li>
+                    <a href="#java%e5%a0%86heap" aria-label="Java堆（Heap）">Java堆（Heap）</a></li>
+                <li>
+                    <a href="#%e6%96%b9%e6%b3%95%e5%8c%bamethod-area" aria-label="方法区（Method Area）">方法区（Method Area）</a></li>
+                <li>
+                    <a href="#%e8%bf%90%e8%a1%8c%e6%97%b6%e5%b8%b8%e9%87%8f%e6%b1%a0runtime-constant-pool" aria-label="运行时常量池（Runtime Constant Pool）">运行时常量池（Runtime Constant Pool）</a></li>
+                <li>
+                    <a href="#%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98direct-memory" aria-label="直接内存（Direct Memory）">直接内存（Direct Memory）</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p><img loading="lazy" src="/jvm/img/run-time_data_areas_1.png" alt=""  />
+</p>
+<h2 id="程序计数器program-counter-register">程序计数器（Program Counter Register）<a hidden class="anchor" aria-hidden="true" href="#程序计数器program-counter-register">#</a></h2>
+<ul>
+<li>是一块较小的内存空间，是当前线程所执行的字节码的行号指示器</li>
+<li>线程私有的</li>
+<li>执行Java方法时，记录字节码指令的地址；执行Native方法时，值为空（Undefined）</li>
+<li>是唯一在Java虚拟机规范中没有定义OutOfMemoryError情况的区域</li>
+</ul>
+<h2 id="java虚拟机栈java-virtual-machine-stacks">Java虚拟机栈（Java Virtual Machine Stacks）<a hidden class="anchor" aria-hidden="true" href="#java虚拟机栈java-virtual-machine-stacks">#</a></h2>
+<ul>
+<li>生命周期与线程相同</li>
+<li>线程私有的</li>
+<li>每个方法被执行的时候都会同时创建一个栈帧（Stack Frame）用于存储：
+<ul>
+<li>局部变量表
+<ul>
+<li>以Slot为最小单位</li>
+<li>能存放：boolean、byte、char、short、int、float、long、double、reference（对象引用）、returnAddress（指向一条字节码指令的地址）类型</li>
+<li>long、double将占用2个Slot</li>
+</ul>
+</li>
+<li>操作数栈
+<ul>
+<li>与局部变量表相似，但是不是依靠索引访问，而是通过入栈、出栈来访问</li>
+</ul>
+</li>
+<li>动态链接</li>
+<li>方法出口</li>
+</ul>
+</li>
+<li>当线程请求的栈深度大于虚拟机允许的深度时，将抛出StackOverFlowError异常</li>
+<li>当虚拟机栈在动态扩展时无法申请到足够的空间时，将会抛出OutOfMemoryError异常</li>
+</ul>
+<h2 id="本地方法栈native-method-stack">本地方法栈（Native Method Stack）<a hidden class="anchor" aria-hidden="true" href="#本地方法栈native-method-stack">#</a></h2>
+<ul>
+<li>线程私有的</li>
+<li>执行Native方法所用</li>
+<li>对数据结构没有具体要求</li>
+<li>会抛出StackOverFlowError异常、OutOfMemoryError异常</li>
+</ul>
+<h2 id="java堆heap">Java堆（Heap）<a hidden class="anchor" aria-hidden="true" href="#java堆heap">#</a></h2>
+<ul>
+<li>虚拟机启动时被创建</li>
+<li>被所有线程共享</li>
+<li>几乎所有的对象实例在堆中分配内存</li>
+<li>垃圾收集器管理的主要区域</li>
+<li>逻辑上连续的空间</li>
+<li>如无内存完成实例分配，并且堆无法再扩展时，将抛出OutOfMemoryError异常</li>
+</ul>
+<h2 id="方法区method-area">方法区（Method Area）<a hidden class="anchor" aria-hidden="true" href="#方法区method-area">#</a></h2>
+<ul>
+<li>线程共享的内存区域</li>
+<li>加载类信息、常量、静态变量、即时编译器编译后的代码等数据</li>
+<li>此区域的垃圾回收行为很少出现</li>
+<li>无法满足内存分配需求时，将抛出OutOfMemoryError异常</li>
+</ul>
+<h2 id="运行时常量池runtime-constant-pool">运行时常量池（Runtime Constant Pool）<a hidden class="anchor" aria-hidden="true" href="#运行时常量池runtime-constant-pool">#</a></h2>
+<ul>
+<li>是方法区的一部分</li>
+<li>用于存放编译器生成的各种字面量和符号引用</li>
+<li>常量池无法申请到内存时会抛出OutOfMemoryError异常</li>
+</ul>
+<h2 id="直接内存direct-memory">直接内存（Direct Memory）<a hidden class="anchor" aria-hidden="true" href="#直接内存direct-memory">#</a></h2>
+<ul>
+<li>不是虚拟机运行时数据区的一部分</li>
+<li>NIO类引入了基于通道（Channel）与缓冲区（Buffer）的I/O方式，使用Native方法直接在堆外内存直接分配内存</li>
+<li>当所有内存与直接内存的总和大于物理内存时，将抛出OutOfMemoryError异常</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/java_source/2_hash_map/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>HashMap源码</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/">
+    <span class="title">Next »</span>
+    <br>
+    <span>对象创建</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

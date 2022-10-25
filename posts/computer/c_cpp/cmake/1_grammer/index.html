@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>语法 | Victor&#39;s Blog</title>
+<meta name="keywords" content="CMake">
+<meta name="description" content="CMake的所有用法">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/c_cpp/cmake/1_grammer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="语法" />
+<meta property="og:description" content="CMake的所有用法" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/c_cpp/cmake/1_grammer/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="语法"/>
+<meta name="twitter:description" content="CMake的所有用法"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "C/C++",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "CMake",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/cmake/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "语法",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/cmake/1_grammer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "语法",
+  "name": "语法",
+  "description": "CMake的所有用法",
+  "keywords": [
+    "CMake"
+  ],
+  "articleBody": "基本语法规则 变量使用${}方式取值，但是在IF控制语句中是直接使用变量名， 指令(参数 1 参数 2 …)参数使用括弧括起，参数之间使用空格或分号分开， ADD_EXECUTABLE(hello main.c func.c)\nADD_EXECUTABLE(hello main.c;func.c)\n指令是大小写无关的，参数和变量是大小写相关的。但推荐全部使用大写指令。 指令 project 语法 PROJECT(projectnema [CXX] [C] [Java])\n作用 指定工程名和工程语言，并隐式定义了两个全局变量：_SOURCE_DIR和_BINARY_DIR。同时cmake系统也帮助我们预定义了 PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR变量，他们的值分别跟前者一致。\nset 语法 SET(VAR [VALUE] [CACHE TYPE DOCSTRING [FORCE]])\n作用 显式的定义变量。\n对于单个文件，可以使用SET(SRC_LIST main.c)，如果有多个源文件，也可以定义成：SET(SRC_LIST main.c t1.c t2.c)。\nmessage 语法 MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] \"message to display\" ...)\n作用 向终端输出用户定义的信息。包含三种类型：\nSEND_ERROR：产生错误，生成过程被跳过， SATUS：输出前缀为-的信息， FATAL_ERROR：立即终止所有cmake过程。 add_executable 语法 ADD_EXECUTABLE(executablename ${SRC_LIST})\n作用 生成一个文件名为executablename的可执行文件，相关的源文件是SRC_LIST中定义的源文件列表。\n也可以忽略掉SRC_LIST列表中的源文件后缀，比如可以写成ADD_EXECUTABLE(t1 main)，cmake会自动的在本目录查找main.c或者main.cpp等，但最好不要偷这个懒，以免这个目录确实存在main.c和main。\nadd_subdirectory 语法 ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])\n作用 这个指令用于向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制存放的位置。EXCLUDE_FROM_ALL参数的含义是将这个目录从编译过程中排除。\ninstall(TARGETS) 语法 INSTALL(TARGETS targets... [[ARCHIVE|LIBRARY|RUNTIME] [DESTINATION ] [PERMISSIONS permissions...] [CONFIGURATIONS [Debug|Release|...]] [COMPONENT ] [OPTIONAL] ] [...] ) 用法 安装的内容可以包括目标二进制、动态库、静态库。\n参数中的TARGETS后面跟的就是我们通过ADD_EXECUTABLE或者ADD_LIBRARY定义的目标文件，可能是可执行二进制、动态库、静态库。目标类型也就相对应的有三种：\nARCHIVE：特指静态库， LIBRARY：特指动态库， RUNTIME：特指可执行目标二进制。 DESTINATION定义了安装的路径，如果路径以/开头，那么指的是绝对路径，这时候CMAKE_INSTALL_PREFIX将无效。\n例：\n/** * 可执行二进制myrun安装到 ${CMAKE_INSTALL_PREFIX}/bin 目录 * 动态库libmylib安装到 ${CMAKE_INSTALL_PREFIX}/lib 目录 * 静态库libmystaticlib安装到 ${CMAKE_INSTALL_PREFIX}/libstatic 目录 */ INSTALL(TARGETS myrun mylib mystaticlib RUNTIME DESTINATION bin LIBRARY DESTINATION lib ARCHIVE DESTINATION libstatic ) ",
+  "wordCount" : "124",
+  "inLanguage": "en",
+  "datePublished": "2022-10-21T00:00:00Z",
+  "dateModified": "2022-10-21T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/c_cpp/cmake/1_grammer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/">C/C&#43;&#43;</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/cmake/">CMake</a></div>
+    <h1 class="post-title">
+      语法
+    </h1>
+    <div class="post-meta"><span title='2022-10-21 00:00:00 +0000 UTC'>October 21, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%9f%ba%e6%9c%ac%e8%af%ad%e6%b3%95%e8%a7%84%e5%88%99" aria-label="基本语法规则">基本语法规则</a></li>
+                <li>
+                    <a href="#%e6%8c%87%e4%bb%a4" aria-label="指令">指令</a><ul>
+                        
+                <li>
+                    <a href="#project" aria-label="project">project</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e4%bd%9c%e7%94%a8" aria-label="作用">作用</a></li></ul>
+                </li>
+                <li>
+                    <a href="#set" aria-label="set">set</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95-1" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e4%bd%9c%e7%94%a8-1" aria-label="作用">作用</a></li></ul>
+                </li>
+                <li>
+                    <a href="#message" aria-label="message">message</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95-2" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e4%bd%9c%e7%94%a8-2" aria-label="作用">作用</a></li></ul>
+                </li>
+                <li>
+                    <a href="#add_executable" aria-label="add_executable">add_executable</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95-3" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e4%bd%9c%e7%94%a8-3" aria-label="作用">作用</a></li></ul>
+                </li>
+                <li>
+                    <a href="#add_subdirectory" aria-label="add_subdirectory">add_subdirectory</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95-4" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e4%bd%9c%e7%94%a8-4" aria-label="作用">作用</a></li></ul>
+                </li>
+                <li>
+                    <a href="#installtargets" aria-label="install(TARGETS)">install(TARGETS)</a><ul>
+                        
+                <li>
+                    <a href="#%e8%af%ad%e6%b3%95-5" aria-label="语法">语法</a></li>
+                <li>
+                    <a href="#%e7%94%a8%e6%b3%95" aria-label="用法">用法</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="基本语法规则">基本语法规则<a hidden class="anchor" aria-hidden="true" href="#基本语法规则">#</a></h2>
+<ol>
+<li>变量使用<code>${}</code>方式取值，但是在IF控制语句中是直接使用变量名，</li>
+<li>指令(参数 1 参数 2 &hellip;)参数使用括弧括起，参数之间使用空格或分号分开，
+<blockquote>
+<p><code>ADD_EXECUTABLE(hello main.c func.c)</code></p>
+<p><code>ADD_EXECUTABLE(hello main.c;func.c)</code></p>
+</blockquote>
+</li>
+<li>指令是大小写无关的，参数和变量是大小写相关的。但推荐全部使用大写指令。</li>
+</ol>
+<h2 id="指令">指令<a hidden class="anchor" aria-hidden="true" href="#指令">#</a></h2>
+<h3 id="project">project<a hidden class="anchor" aria-hidden="true" href="#project">#</a></h3>
+<h4 id="语法">语法<a hidden class="anchor" aria-hidden="true" href="#语法">#</a></h4>
+<p><code>PROJECT(projectnema [CXX] [C] [Java])</code></p>
+<h4 id="作用">作用<a hidden class="anchor" aria-hidden="true" href="#作用">#</a></h4>
+<p>指定工程名和工程语言，并隐式定义了两个全局变量：<code>&lt;projectname&gt;_SOURCE_DIR</code>和<code>&lt;projectname&gt;_BINARY_DIR</code>。同时cmake系统也帮助我们预定义了 PROJECT_BINARY_DIR 和 PROJECT_SOURCE_DIR变量，他们的值分别跟前者一致。</p>
+<h3 id="set">set<a hidden class="anchor" aria-hidden="true" href="#set">#</a></h3>
+<h4 id="语法-1">语法<a hidden class="anchor" aria-hidden="true" href="#语法-1">#</a></h4>
+<p><code>SET(VAR [VALUE] [CACHE TYPE DOCSTRING [FORCE]])</code></p>
+<h4 id="作用-1">作用<a hidden class="anchor" aria-hidden="true" href="#作用-1">#</a></h4>
+<p>显式的定义变量。</p>
+<p>对于单个文件，可以使用<code>SET(SRC_LIST main.c)</code>，如果有多个源文件，也可以定义成：<code>SET(SRC_LIST main.c t1.c t2.c)</code>。</p>
+<h3 id="message">message<a hidden class="anchor" aria-hidden="true" href="#message">#</a></h3>
+<h4 id="语法-2">语法<a hidden class="anchor" aria-hidden="true" href="#语法-2">#</a></h4>
+<p><code>MESSAGE([SEND_ERROR | STATUS | FATAL_ERROR] &quot;message to display&quot; ...)</code></p>
+<h4 id="作用-2">作用<a hidden class="anchor" aria-hidden="true" href="#作用-2">#</a></h4>
+<p>向终端输出用户定义的信息。包含三种类型：</p>
+<ul>
+<li><code>SEND_ERROR</code>：产生错误，生成过程被跳过，</li>
+<li><code>SATUS</code>：输出前缀为<code>-</code>的信息，</li>
+<li><code>FATAL_ERROR</code>：立即终止所有cmake过程。</li>
+</ul>
+<h3 id="add_executable">add_executable<a hidden class="anchor" aria-hidden="true" href="#add_executable">#</a></h3>
+<h4 id="语法-3">语法<a hidden class="anchor" aria-hidden="true" href="#语法-3">#</a></h4>
+<p><code>ADD_EXECUTABLE(executablename ${SRC_LIST})</code></p>
+<h4 id="作用-3">作用<a hidden class="anchor" aria-hidden="true" href="#作用-3">#</a></h4>
+<p>生成一个文件名为<code>executablename</code>的可执行文件，相关的源文件是<code>SRC_LIST</code>中定义的源文件列表。</p>
+<p>也可以忽略掉<code>SRC_LIST</code>列表中的源文件后缀，比如可以写成<code>ADD_EXECUTABLE(t1 main)</code>，cmake会自动的在本目录查找main.c或者main.cpp等，但最好不要偷这个懒，以免这个目录确实存在main.c和main。</p>
+<h3 id="add_subdirectory">add_subdirectory<a hidden class="anchor" aria-hidden="true" href="#add_subdirectory">#</a></h3>
+<h4 id="语法-4">语法<a hidden class="anchor" aria-hidden="true" href="#语法-4">#</a></h4>
+<p><code>ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])</code></p>
+<h4 id="作用-4">作用<a hidden class="anchor" aria-hidden="true" href="#作用-4">#</a></h4>
+<p>这个指令用于向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制存放的位置。<code>EXCLUDE_FROM_ALL</code>参数的含义是将这个目录从编译过程中排除。</p>
+<h3 id="installtargets">install(TARGETS)<a hidden class="anchor" aria-hidden="true" href="#installtargets">#</a></h3>
+<h4 id="语法-5">语法<a hidden class="anchor" aria-hidden="true" href="#语法-5">#</a></h4>
+<pre tabindex="0"><code>INSTALL(TARGETS targets...
+    [[ARCHIVE|LIBRARY|RUNTIME]
+        [DESTINATION &lt;dir&gt;]
+        [PERMISSIONS permissions...]
+        [CONFIGURATIONS [Debug|Release|...]]
+        [COMPONENT &lt;component&gt;]
+        [OPTIONAL]
+    ] 
+    [...]
+)
+</code></pre><h4 id="用法">用法<a hidden class="anchor" aria-hidden="true" href="#用法">#</a></h4>
+<p>安装的内容可以包括目标二进制、动态库、静态库。</p>
+<p>参数中的<code>TARGETS</code>后面跟的就是我们通过<code>ADD_EXECUTABLE</code>或者<code>ADD_LIBRARY</code>定义的目标文件，可能是可执行二进制、动态库、静态库。目标类型也就相对应的有三种：</p>
+<ul>
+<li><code>ARCHIVE</code>：特指静态库，</li>
+<li><code>LIBRARY</code>：特指动态库，</li>
+<li><code>RUNTIME</code>：特指可执行目标二进制。</li>
+</ul>
+<p><code>DESTINATION</code>定义了安装的路径，如果路径以/开头，那么指的是绝对路径，这时候<code>CMAKE_INSTALL_PREFIX</code>将无效。</p>
+<p>例：</p>
+<pre tabindex="0"><code>/**
+*   可执行二进制myrun安装到 ${CMAKE_INSTALL_PREFIX}/bin 目录
+*   动态库libmylib安装到 ${CMAKE_INSTALL_PREFIX}/lib 目录
+*   静态库libmystaticlib安装到 ${CMAKE_INSTALL_PREFIX}/libstatic 目录
+*/
+INSTALL(TARGETS myrun mylib mystaticlib
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION libstatic
+)
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/cmake/">CMake</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/16_low_level_programming/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>底层程序设计</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/c_cpp/cpp/1_grammer/">
+    <span class="title">Next »</span>
+    <br>
+    <span>语法</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

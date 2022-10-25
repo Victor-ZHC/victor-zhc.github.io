@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>对象创建 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA, Java虚拟机">
+<meta name="description" content="对象竟然是这么来的">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="对象创建" />
+<meta property="og:description" content="对象竟然是这么来的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="对象创建"/>
+<meta name="twitter:description" content="对象竟然是这么来的"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java虚拟机",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "对象创建",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "对象创建",
+  "name": "对象创建",
+  "description": "对象竟然是这么来的",
+  "keywords": [
+    "JAVA", "Java虚拟机"
+  ],
+  "articleBody": " 当遇到一条new指令时，首先检查指令的参数能否在常量池中定位到一个类的符号引用 对象的大小在类加载完成后便可完全确定，之后从Java堆中将内存划分出来即可 如果Java堆中的内存是规整的（占用的内存和空闲内存分离），中间使用指针作为分界线，分配内存即将指针挪动对象大小的距离，称为指针碰撞（Bump the Pointer） 如果Java堆中的内存不是规整的，则需要一个列表来记录哪些内存块是可用的，分配内存时通过列表去查找可用的内存，这种分配方式被称为空闲列表（Free List） 不同方式取决与GC是否带有压缩整理的功能 在并发的情况下，内存分配可能出现错误，解决方案有两种 分配内存的动作进行同步处理 把内存分配的动作按照线程划分在不同的空间之中进行，每个线程预先在Java堆中分配一小块内存，成为本地线程分配缓冲（Thread Local Allocation Buffer，TLAB），当TLAB用完需要分配新的TLAB时，才需要同步锁定 将内存空间初始化为0值 对对象头进行设置（哪个类的实例、哈希码，GC分代年龄等信息） 执行方法，对对象进行初始化 ",
+  "wordCount" : "17",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/">Java虚拟机</a></div>
+    <h1 class="post-title">
+      对象创建
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> 
+
+  <div class="post-content"><ol>
+<li>当遇到一条new指令时，首先检查指令的参数能否在常量池中定位到一个类的符号引用</li>
+<li>对象的大小在类加载完成后便可完全确定，之后从Java堆中将内存划分出来即可
+<ul>
+<li>如果Java堆中的内存是规整的（占用的内存和空闲内存分离），中间使用指针作为分界线，分配内存即将指针挪动对象大小的距离，称为指针碰撞（Bump the Pointer）</li>
+<li>如果Java堆中的内存不是规整的，则需要一个列表来记录哪些内存块是可用的，分配内存时通过列表去查找可用的内存，这种分配方式被称为空闲列表（Free List）</li>
+<li>不同方式取决与GC是否带有压缩整理的功能</li>
+</ul>
+</li>
+<li>在并发的情况下，内存分配可能出现错误，解决方案有两种
+<ul>
+<li>分配内存的动作进行同步处理</li>
+<li>把内存分配的动作按照线程划分在不同的空间之中进行，每个线程预先在Java堆中分配一小块内存，成为本地线程分配缓冲（Thread Local Allocation Buffer，TLAB），当TLAB用完需要分配新的TLAB时，才需要同步锁定</li>
+</ul>
+</li>
+<li>将内存空间初始化为0值</li>
+<li>对对象头进行设置（哪个类的实例、哈希码，GC分代年龄等信息）</li>
+<li>执行<init>方法，对对象进行初始化</li>
+</ol>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>运行时数据区域</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/3_object_memory_layout/">
+    <span class="title">Next »</span>
+    <br>
+    <span>对象内存布局</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

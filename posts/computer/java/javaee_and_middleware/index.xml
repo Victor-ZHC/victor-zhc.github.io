@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java EE与中间件技术 on Victor&#39;s Blog</title>
+    <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/</link>
+    <description>Recent content in Java EE与中间件技术 on Victor&#39;s Blog</description>
+    <image>
+      <url>https://victor-zhc.github.io/papermod-cover.png</url>
+      <link>https://victor-zhc.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 24 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>概览</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/1_overview/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/1_overview/</guid>
+      <description>提前给你搭好架子</description>
+    </item>
+    
+    <item>
+      <title>Servlet</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/2_servlet/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/2_servlet/</guid>
+      <description>替你搭好Web的架子</description>
+    </item>
+    
+    <item>
+      <title>JSP技术</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/3_jsp/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/3_jsp/</guid>
+      <description>替你搭好前端的架子</description>
+    </item>
+    
+    <item>
+      <title>SSH</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/4_ssh/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/4_ssh/</guid>
+      <description>替你搭好后端的架子</description>
+    </item>
+    
+    <item>
+      <title>spring-boot</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/5_spring-boot/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/5_spring-boot/</guid>
+      <description>更好用的Spring</description>
+    </item>
+    
+    <item>
+      <title>其它</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/</guid>
+      <description>看看还有什么好用的玩意儿</description>
+    </item>
+    
+  </channel>
+</rss>

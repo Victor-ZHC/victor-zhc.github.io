@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>输入输出 | Victor&#39;s Blog</title>
+<meta name="keywords" content="C">
+<meta name="description" content="输出你想要的格式">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="输入输出" />
+<meta property="og:description" content="输出你想要的格式" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="输入输出"/>
+<meta name="twitter:description" content="输出你想要的格式"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "C/C++",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "C",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "输入输出",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "输入输出",
+  "name": "输入输出",
+  "description": "输出你想要的格式",
+  "keywords": [
+    "C"
+  ],
+  "articleBody": "输出函数 printf函数是用于显示“格式串”的内容，用法为：\nprintf(格式串, 表达式1, 表达式2, ...)\n格式串由普通字符和转换说明（conversion specification）组成。\n转换说明 结构 转换说明的结构为：%m.pX或%-m.pX，其中：\nm为最小字段宽度，其指定了需要显示的最少字符的数量，若字符数小于该值，则会在字符左边填充空格。若在m前放置-号，则会在字符串右边填充空格。 p为精度，对于不同的X，p的含义不同 d：代表十进制显示的个数，若不足，则在前面补充0 e：指数形式浮点数，p规定小数点后位数 f：小数点后位数 数据类型 整数：存储长度 + 进制 d、u、o、x：十进制、十进制无符号、八进制、十六进制 s、l：短整数、长整数 浮点数： f：以小数输出单、双精度浮点数 e：以指数输出单、双精度浮点数 g：以%f或%e中较短的输出宽度输出单、双精度实数 字符： c：单字符 s：字符串 输入函数 scanf函数根据特定的格式读取输入。\nscanf(格式串, \u0026变量1, \u0026变量2, ...)\n工作方式 当程序执行到scanf(\"%d\", \u0026a);时，程序向CPU发出指令，要求其先检测输入缓冲内有没有数据，本程序内输入缓冲内没有数据，CPU开始等待输入设备（键盘）向输入缓冲内输入数据，这里输入一个“2”，输入后按enter，此时2和换行符一并被输入设备写入输入缓冲，输入缓冲检测到有回车进来了，CPU开始执行读取指令，将2读取后将其从输入缓冲清除，从输入缓冲将数据“2”赋值给a，由于a是一个具体的地址空间变量，所以赋值结束后，CPU将a的值写入输入缓冲，对于笔记本电脑而言，a的保存输出设备就是电脑硬盘，所以电脑硬盘就是输出设备。\n对于不同数据类型处理方式：\n%d：对于整型数据的输入，也就是说”%d”类型的输入，scanf默认的分割符是所有的空白字符(空格，回车和指标符都行)。也就是说如果一个scanf函数中出现scanf(\"%d%d\", \u0026a, \u0026b) ，那么用任何一个空白字符来分隔两个整数a,b的值，变量a,b都可以接收到正确的输入。另外，要注意的是，scanf对于数字输入，会忽略输入数据项前面的空白字符。 %s：scanf对于字符串输入的处理和对整数类似，会忽略前导的空白字符，而且默认的分隔符是所有的空白字符。但是，要注意的是，由于C语言中，没有string类型，都是用char型数组来表示。因此，scanf会为每一个输入的字符串最后加一个‘\\0’ （NULL）。 %c：scanf在处理对字符数据的输入时，既不会忽略前导空白字符，默认也没有任何分隔字符。所有的字符，包括空白字符都会被当成输入字符。 C语言缓冲区 缓冲区的三种类型 全缓冲 在这种情况下，当填满标准I/O缓存后才进行实际I/O操作。全缓冲的典型代表是对磁盘文件的读写。\n行缓冲 scanf()函数的缓冲类型就是这个，在这种情况下，当在输入和输出中遇到换行符时，执行真正的I/O操作。这时，我们输入的字符先存放在缓冲区，等按下回车键换行时才进行实际的I/O操作。典型代表是键盘输入数据。\n不带缓冲 也就是不进行缓冲，标准出错情况stderr是典型代表，这使得出错信息可以直接尽快地显示出来。\nC语言操作缓冲区 对于以下程序：\n#include void main() { char a ,b ; printf(\"请输入a和b的值：\"); scanf(\"%c%c\",\u0026a,\u0026b); printf(\"a=%c,b=%c\\n\",a,b); printf(\"请输入a和b的值：\"); scanf(\"%c%c\",\u0026a,\u0026b); printf(\"a=%c,b=%c\\n\",a,b); } 输出如图： 分析：\n1~5：行程序正常执行； 6：程序走到这里，scanf检测到输入缓冲区没有字符，开始等待输入；我们输入了两个字符AB，这是我们一共在按键上依次按下”A”，”B”，“enter”，于是缓冲区现在有这三个字符；AB被分别分给了字符变量a，b；并且被清除了；于是缓冲区内就剩下了“enter”； 7：程序正常输出a,b值； 8：正常执行程序； 9：程序走到这里，scanf检测缓冲区内有字符，但是只有一个字符“enter”，不够再次分配两个变量的，所以程序让再输入一个字符；可是我们输入了两个字符，AB；程序结束后，a被赋值“enter”，b被赋值A，这时缓冲区不仅将会剩下一个B字符，还会剩下一个“enter”；这个缓冲区的内容会随着程序的结束而被消除，由于不操作了，所以我们感觉不到他俩的存在； 10：a，b再次被输出，a被输出了回车，所以换行了，a被输出了A； 程序结束； 缓冲区的刷新 下面几种情况将引起缓冲区刷新，也就是清空所有数据：\n缓冲区被写满 执行flush语句 执行endl语句 关闭文件 fflush(stdin)函数清除缓冲区\n#include void main() { char a ,b ; printf(\"请输入a和b的值：\"); scanf(\"%c%c\",\u0026a,\u0026b); printf(\"a=%c,b=%c\\n\",a,b); printf(\"请输入a和b的值：\"); fflush(stdin); //清除输入缓冲区； scanf(\"%c%c\",\u0026a,\u0026b); printf(\"a=%c,b=%c\\n\",a,b); } 结果如下： ",
+  "wordCount" : "107",
+  "inLanguage": "en",
+  "datePublished": "2022-10-21T00:00:00Z",
+  "dateModified": "2022-10-21T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/">C/C&#43;&#43;</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/c/">C</a></div>
+    <h1 class="post-title">
+      输入输出
+    </h1>
+    <div class="post-meta"><span title='2022-10-21 00:00:00 +0000 UTC'>October 21, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%be%93%e5%87%ba%e5%87%bd%e6%95%b0" aria-label="输出函数">输出函数</a><ul>
+                        
+                <li>
+                    <a href="#%e8%bd%ac%e6%8d%a2%e8%af%b4%e6%98%8e" aria-label="转换说明">转换说明</a><ul>
+                        
+                <li>
+                    <a href="#%e7%bb%93%e6%9e%84" aria-label="结构">结构</a></li>
+                <li>
+                    <a href="#%e6%95%b0%e6%8d%ae%e7%b1%bb%e5%9e%8b" aria-label="数据类型">数据类型</a></li></ul>
+                </li></ul>
+                </li>
+                <li>
+                    <a href="#%e8%be%93%e5%85%a5%e5%87%bd%e6%95%b0" aria-label="输入函数">输入函数</a><ul>
+                        
+                <li>
+                    <a href="#%e5%b7%a5%e4%bd%9c%e6%96%b9%e5%bc%8f" aria-label="工作方式">工作方式</a></li></ul>
+                </li>
+                <li>
+                    <a href="#c%e8%af%ad%e8%a8%80%e7%bc%93%e5%86%b2%e5%8c%ba" aria-label="C语言缓冲区">C语言缓冲区</a><ul>
+                        
+                <li>
+                    <a href="#%e7%bc%93%e5%86%b2%e5%8c%ba%e7%9a%84%e4%b8%89%e7%a7%8d%e7%b1%bb%e5%9e%8b" aria-label="缓冲区的三种类型">缓冲区的三种类型</a><ul>
+                        
+                <li>
+                    <a href="#%e5%85%a8%e7%bc%93%e5%86%b2" aria-label="全缓冲">全缓冲</a></li>
+                <li>
+                    <a href="#%e8%a1%8c%e7%bc%93%e5%86%b2" aria-label="行缓冲">行缓冲</a></li>
+                <li>
+                    <a href="#%e4%b8%8d%e5%b8%a6%e7%bc%93%e5%86%b2" aria-label="不带缓冲">不带缓冲</a></li></ul>
+                </li>
+                <li>
+                    <a href="#c%e8%af%ad%e8%a8%80%e6%93%8d%e4%bd%9c%e7%bc%93%e5%86%b2%e5%8c%ba" aria-label="C语言操作缓冲区">C语言操作缓冲区</a><ul>
+                        
+                <li>
+                    <a href="#%e7%bc%93%e5%86%b2%e5%8c%ba%e7%9a%84%e5%88%b7%e6%96%b0" aria-label="缓冲区的刷新">缓冲区的刷新</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="输出函数">输出函数<a hidden class="anchor" aria-hidden="true" href="#输出函数">#</a></h2>
+<p><code>printf</code>函数是用于显示“格式串”的内容，用法为：</p>
+<p><code>printf(格式串, 表达式1, 表达式2, ...)</code></p>
+<p>格式串由普通字符和转换说明（conversion specification）组成。</p>
+<h3 id="转换说明">转换说明<a hidden class="anchor" aria-hidden="true" href="#转换说明">#</a></h3>
+<h4 id="结构">结构<a hidden class="anchor" aria-hidden="true" href="#结构">#</a></h4>
+<p>转换说明的结构为：<code>%m.pX</code>或<code>%-m.pX</code>，其中：</p>
+<ul>
+<li>m为最小字段宽度，其指定了需要显示的最少字符的数量，若字符数小于该值，则会在字符左边填充空格。若在m前放置<code>-</code>号，则会在字符串右边填充空格。</li>
+<li>p为精度，对于不同的X，p的含义不同
+<ul>
+<li>d：代表十进制显示的个数，若不足，则在前面补充0</li>
+<li>e：指数形式浮点数，p规定小数点后位数</li>
+<li>f：小数点后位数</li>
+</ul>
+</li>
+</ul>
+<h4 id="数据类型">数据类型<a hidden class="anchor" aria-hidden="true" href="#数据类型">#</a></h4>
+<ul>
+<li>整数：存储长度 + 进制
+<ul>
+<li>d、u、o、x：十进制、十进制无符号、八进制、十六进制</li>
+<li>s、l：短整数、长整数</li>
+</ul>
+</li>
+<li>浮点数：
+<ul>
+<li>f：以小数输出单、双精度浮点数</li>
+<li>e：以指数输出单、双精度浮点数</li>
+<li>g：以%f或%e中较短的输出宽度输出单、双精度实数</li>
+</ul>
+</li>
+<li>字符：
+<ul>
+<li>c：单字符</li>
+<li>s：字符串</li>
+</ul>
+</li>
+</ul>
+<h2 id="输入函数">输入函数<a hidden class="anchor" aria-hidden="true" href="#输入函数">#</a></h2>
+<p><code>scanf</code>函数根据特定的格式读取输入。</p>
+<p><code>scanf(格式串, &amp;变量1, &amp;变量2, ...)</code></p>
+<h3 id="工作方式">工作方式<a hidden class="anchor" aria-hidden="true" href="#工作方式">#</a></h3>
+<p><img loading="lazy" src="/c/img/io_1.jpg" alt=""  />
+
+当程序执行到<code>scanf(&quot;%d&quot;, &amp;a);</code>时，程序向CPU发出指令，要求其先检测输入缓冲内有没有数据，本程序内输入缓冲内没有数据，CPU开始等待输入设备（键盘）向输入缓冲内输入数据，这里输入一个“2”，输入后按enter，此时2和换行符一并被输入设备写入输入缓冲，输入缓冲检测到有回车进来了，CPU开始执行读取指令，将2读取后将其从输入缓冲清除，从输入缓冲将数据“2”赋值给a，由于a是一个具体的地址空间变量，所以赋值结束后，CPU将a的值写入输入缓冲，对于笔记本电脑而言，a的保存输出设备就是电脑硬盘，所以电脑硬盘就是输出设备。</p>
+<p>对于不同数据类型处理方式：</p>
+<ul>
+<li>%d：对于整型数据的输入，也就是说”%d”类型的输入，scanf默认的分割符是所有的空白字符(空格，回车和指标符都行)。也就是说如果一个scanf函数中出现<code>scanf(&quot;%d%d&quot;, &amp;a, &amp;b) </code>，那么用任何一个空白字符来分隔两个整数a,b的值，变量a,b都可以接收到正确的输入。另外，要注意的是，scanf对于数字输入，会忽略输入数据项前面的空白字符。</li>
+<li>%s：scanf对于字符串输入的处理和对整数类似，会忽略前导的空白字符，而且默认的分隔符是所有的空白字符。但是，要注意的是，由于C语言中，没有string类型，都是用char型数组来表示。因此，scanf会为每一个输入的字符串最后加一个‘\0’ （NULL）。</li>
+<li>%c：scanf在处理对字符数据的输入时，既不会忽略前导空白字符，默认也没有任何分隔字符。所有的字符，包括空白字符都会被当成输入字符。</li>
+</ul>
+<h2 id="c语言缓冲区">C语言缓冲区<a hidden class="anchor" aria-hidden="true" href="#c语言缓冲区">#</a></h2>
+<h3 id="缓冲区的三种类型">缓冲区的三种类型<a hidden class="anchor" aria-hidden="true" href="#缓冲区的三种类型">#</a></h3>
+<h4 id="全缓冲">全缓冲<a hidden class="anchor" aria-hidden="true" href="#全缓冲">#</a></h4>
+<p>在这种情况下，当填满标准I/O缓存后才进行实际I/O操作。全缓冲的典型代表是对磁盘文件的读写。</p>
+<h4 id="行缓冲">行缓冲<a hidden class="anchor" aria-hidden="true" href="#行缓冲">#</a></h4>
+<p>scanf()函数的缓冲类型就是这个，在这种情况下，当在输入和输出中遇到换行符时，执行真正的I/O操作。这时，我们输入的字符先存放在缓冲区，等按下回车键换行时才进行实际的I/O操作。典型代表是键盘输入数据。</p>
+<h4 id="不带缓冲">不带缓冲<a hidden class="anchor" aria-hidden="true" href="#不带缓冲">#</a></h4>
+<p>也就是不进行缓冲，标准出错情况stderr是典型代表，这使得出错信息可以直接尽快地显示出来。</p>
+<h3 id="c语言操作缓冲区">C语言操作缓冲区<a hidden class="anchor" aria-hidden="true" href="#c语言操作缓冲区">#</a></h3>
+<p>对于以下程序：</p>
+<pre tabindex="0"><code>#include &lt;stdio.h&gt;
+void main() {
+    char a ,b ;  
+    printf(&#34;请输入a和b的值：&#34;);  
+    scanf(&#34;%c%c&#34;,&amp;a,&amp;b);
+    printf(&#34;a=%c,b=%c\n&#34;,a,b);  
+    printf(&#34;请输入a和b的值：&#34;);  
+    scanf(&#34;%c%c&#34;,&amp;a,&amp;b);
+    printf(&#34;a=%c,b=%c\n&#34;,a,b);  
+}
+</code></pre><p>输出如图：
+<img loading="lazy" src="/c/img/io_2.png" alt=""  />
+</p>
+<p>分析：</p>
+<ul>
+<li>1~5：行程序正常执行；</li>
+<li>6：程序走到这里，scanf检测到输入缓冲区没有字符，开始等待输入；我们输入了两个字符AB，这是我们一共在按键上依次按下”A”，”B”，“enter”，于是缓冲区现在有这三个字符；AB被分别分给了字符变量a，b；并且被清除了；于是缓冲区内就剩下了“enter”；</li>
+<li>7：程序正常输出a,b值；</li>
+<li>8：正常执行程序；</li>
+<li>9：程序走到这里，scanf检测缓冲区内有字符，但是只有一个字符“enter”，不够再次分配两个变量的，所以程序让再输入一个字符；可是我们输入了两个字符，AB；程序结束后，a被赋值“enter”，b被赋值A，这时缓冲区不仅将会剩下一个B字符，还会剩下一个“enter”；这个缓冲区的内容会随着程序的结束而被消除，由于不操作了，所以我们感觉不到他俩的存在；</li>
+<li>10：a，b再次被输出，a被输出了回车，所以换行了，a被输出了A；</li>
+<li>程序结束；</li>
+</ul>
+<h4 id="缓冲区的刷新">缓冲区的刷新<a hidden class="anchor" aria-hidden="true" href="#缓冲区的刷新">#</a></h4>
+<p>下面几种情况将引起缓冲区刷新，也就是清空所有数据：</p>
+<ol>
+<li>缓冲区被写满</li>
+<li>执行flush语句</li>
+<li>执行endl语句</li>
+<li>关闭文件</li>
+</ol>
+<p><strong>fflush(stdin)函数清除缓冲区</strong></p>
+<pre tabindex="0"><code>#include &lt;stdio.h&gt;
+void main() {
+    char a ,b ;  
+    printf(&#34;请输入a和b的值：&#34;);  
+    scanf(&#34;%c%c&#34;,&amp;a,&amp;b);
+    printf(&#34;a=%c,b=%c\n&#34;,a,b);  
+    printf(&#34;请输入a和b的值：&#34;); 
+    fflush(stdin);      //清除输入缓冲区； 
+    scanf(&#34;%c%c&#34;,&amp;a,&amp;b);
+    printf(&#34;a=%c,b=%c\n&#34;,a,b);  
+}
+</code></pre><p>结果如下：
+<img loading="lazy" src="/c/img/io_3.png" alt=""  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/c/">C</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/2_key_word/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>关键字</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/4_operator/">
+    <span class="title">Next »</span>
+    <br>
+    <span>运算符</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

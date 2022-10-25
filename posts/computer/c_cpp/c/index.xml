@@ -12,145 +12,145 @@
     <lastBuildDate>Fri, 21 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/posts/computer/c_cpp/c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>简介</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/introduction/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/1_introduction/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/introduction/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/1_introduction/</guid>
       <description>运行Hello World</description>
     </item>
     
     <item>
       <title>关键字</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/key_word/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/2_key_word/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/key_word/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/2_key_word/</guid>
       <description>很关键</description>
     </item>
     
     <item>
       <title>输入输出</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/io/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/io/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/</guid>
       <description>输出你想要的格式</description>
     </item>
     
     <item>
       <title>运算符</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/operator/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/4_operator/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/operator/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/4_operator/</guid>
       <description>原来加减乘除还有这么多门道</description>
     </item>
     
     <item>
       <title>控制语句</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/control_statements/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/control_statements/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/</guid>
       <description>基本操作</description>
     </item>
     
     <item>
       <title>基本类型</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/basic_types/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/6_basic_types/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/basic_types/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/6_basic_types/</guid>
       <description>种类还挺多</description>
     </item>
     
     <item>
       <title>数组</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/array/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/7_array/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/array/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/7_array/</guid>
       <description>就是很多组数</description>
     </item>
     
     <item>
       <title>函数</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/function/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/8_function/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/function/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/8_function/</guid>
       <description>很有内涵</description>
     </item>
     
     <item>
       <title>作用域</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/scope/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/9_scope/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/scope/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/9_scope/</guid>
       <description>不能出界呦</description>
     </item>
     
     <item>
       <title>指针</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/pointer/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/10_pointer/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/pointer/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/10_pointer/</guid>
       <description>搞定它就搞定了C语言</description>
     </item>
     
     <item>
       <title>字符串</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/string/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/11_string/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/string/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/11_string/</guid>
       <description>不就是char数组吗？！</description>
     </item>
     
     <item>
       <title>预处理器</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/preprocessor/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/12_preprocessor/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/preprocessor/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/12_preprocessor/</guid>
       <description>在高手手里会变得很强大</description>
     </item>
     
     <item>
       <title>编写大型程序</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/project/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/project/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/</guid>
       <description>其实也很麻烦</description>
     </item>
     
     <item>
       <title>结构、联合与枚举</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/struct_union_enum/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/14_struct_union_enum/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/struct_union_enum/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/14_struct_union_enum/</guid>
       <description>面向对象的雏形</description>
     </item>
     
     <item>
       <title>声明</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/statement/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/15_statement/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/statement/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/15_statement/</guid>
       <description>更加深层次的理解语言</description>
     </item>
     
     <item>
       <title>底层程序设计</title>
-      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/low_level_programming/</link>
+      <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/16_low_level_programming/</link>
       <pubDate>Fri, 21 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/low_level_programming/</guid>
+      <guid>https://victor-zhc.github.io/posts/computer/c_cpp/c/16_low_level_programming/</guid>
       <description>用对了可以更高效</description>
     </item>
     

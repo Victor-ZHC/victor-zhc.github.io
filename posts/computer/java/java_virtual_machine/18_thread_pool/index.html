@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>线程池 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA, Java虚拟机">
+<meta name="description" content="资源也是可以复用的">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="线程池" />
+<meta property="og:description" content="资源也是可以复用的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="线程池"/>
+<meta name="twitter:description" content="资源也是可以复用的"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java虚拟机",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "线程池",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "线程池",
+  "name": "线程池",
+  "description": "资源也是可以复用的",
+  "keywords": [
+    "JAVA", "Java虚拟机"
+  ],
+  "articleBody": "定义 为避免系统频繁地创建和销毁线程，让创建的线程复用 Executors是一个静态工厂类，可以取得特定功能的线程池 不同特性的线程池（Executors中获取） newFixedThreadPool() 返回固定数量的线程池 当有新任务提交时，线程池中若有空闲线程，则立即执行，否则将任务放入任务队列 newSingleThreadExecutor() 返回只有一个线程的线程池 newCachedThreadPool() 返回一个可以根据实际情况调整线程数量的线程池，任务增多线程增加，任务减少线程减少 newScheduledThreadPool() 返回可指定线程数量的ScheduledExecutorService对象的定时线程池，可以：1）给定时间执行某任务（schedule()）；2）周期性执行某任务（scheduleAtFixedRate()）；3）固定延迟后，周期性执行某任务（scheduleWithFixedDelay()）。 ThreadPoolExecutor线程池类 关键构造函数参数 corePoolSize：核心线程池的大小，默认情况下，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到阻塞队列当中 maximumPoolSize：线程池最大线程数 keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize unit：参数keepAliveTime的时间单位 workQueue：阻塞队列，用来存储等待执行的任务 关键数据结构 HashSet workers：一个worker对应一个线程，线程池通过workers包含多个线程 BlockingQueue workQueue：当线程池中的待处理任务数数超过容量，任务提交后，进入阻塞队列，等待worker线程 关键方法 execute()：核心方法，向线程池提交一个任务，并执行 public void execute(Runnable command) { if (command == null) throw new NullPointerException(); int c = ctl.get(); // 如果线程池中当前线程数小于核心池大小 if (workerCountOf(c) \u003c corePoolSize) { // addWorker if (addWorker(command, true)) return; c = ctl.get(); } // 如果当前线程池处于RUNNING状态，则将任务放入缓存队列 if (isRunning(c) \u0026\u0026 workQueue.offer(command)) { int recheck = ctl.get(); // 下面：为防止将任务添加进任务缓存队列时，其他线程调用shutdown或shutdownNow关闭线程池 if (!isRunning(recheck) \u0026\u0026 remove(command)) reject(command); else if (workerCountOf(recheck) == 0) addWorker(null, false); } // 否则addWorker else if (!addWorker(command, false)) // 如果失败，拒绝任务处理 reject(command); } addWorker() Worker w = new Worker(firstTask); final Thread t = w.thread; // Worker实现Runnable接口，有run方法 使用 import java.io.Serializable; import java.util.concurrent.ArrayBlockingQueue; import java.util.concurrent.ThreadPoolExecutor; import java.util.concurrent.TimeUnit; public class ThreadPoolExecutorDemo { static int consumeTaskSleepTime = 5; public static void main(String[] args) { //构造一个线程池，阻塞队列小，会有部分任务丢失 ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 4, 200, TimeUnit.MILLISECONDS, new ArrayBlockingQueue\u003c\u003e(5), new ThreadPoolExecutor.DiscardOldestPolicy()); // 其中：ThreadPoolExecutor.DiscardOldestPolicy()是任务拒绝策略：丢弃队列最前面的任务，然后重新尝试执行任务 for (int i = 1; i \u003c= 20; i++) { //定义最大添加20个线程到线程池中 try { //一个任务，并将其加入到线程池 String work = \"work@ \" + i; System.out.println(\"put ：\" + work); threadPool.execute(new ThreadPoolTask(work)); //便于观察，等待一段时间 Thread.sleep(1); } catch (Exception e) { e.printStackTrace(); } } } /** * 线程池执行的任务 */ public static class ThreadPoolTask implements Runnable, Serializable { private static final long serialVersionUID = 0; //保存任务所需要的数据 private Object threadPoolTaskData; ThreadPoolTask(Object works) { this.threadPoolTaskData = works; } public void run() { //处理一个任务 System.out.println(\"start------\" + threadPoolTaskData); try { //便于观察，等待一段时间 Thread.sleep(consumeTaskSleepTime); } catch (Exception e) { e.printStackTrace(); } threadPoolTaskData = null; } } } ",
+  "wordCount" : "241",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/">Java虚拟机</a></div>
+    <h1 class="post-title">
+      线程池
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%ae%9a%e4%b9%89" aria-label="定义">定义</a></li>
+                <li>
+                    <a href="#%e4%b8%8d%e5%90%8c%e7%89%b9%e6%80%a7%e7%9a%84%e7%ba%bf%e7%a8%8b%e6%b1%a0executors%e4%b8%ad%e8%8e%b7%e5%8f%96" aria-label="不同特性的线程池（Executors中获取）">不同特性的线程池（Executors中获取）</a></li>
+                <li>
+                    <a href="#threadpoolexecutor%e7%ba%bf%e7%a8%8b%e6%b1%a0%e7%b1%bb" aria-label="ThreadPoolExecutor线程池类">ThreadPoolExecutor线程池类</a></li>
+                <li>
+                    <a href="#%e4%bd%bf%e7%94%a8" aria-label="使用">使用</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="定义">定义<a hidden class="anchor" aria-hidden="true" href="#定义">#</a></h2>
+<ul>
+<li>为避免系统频繁地创建和销毁线程，让创建的线程复用
+<img loading="lazy" src="/jvm/img/thread_pool_1.png" alt=""  />
+</li>
+<li>Executors是一个静态工厂类，可以取得特定功能的线程池</li>
+</ul>
+<h2 id="不同特性的线程池executors中获取">不同特性的线程池（Executors中获取）<a hidden class="anchor" aria-hidden="true" href="#不同特性的线程池executors中获取">#</a></h2>
+<ul>
+<li>newFixedThreadPool()
+<ul>
+<li>返回固定数量的线程池</li>
+<li>当有新任务提交时，线程池中若有空闲线程，则立即执行，否则将任务放入任务队列</li>
+</ul>
+</li>
+<li>newSingleThreadExecutor()
+<ul>
+<li>返回只有一个线程的线程池</li>
+</ul>
+</li>
+<li>newCachedThreadPool()
+<ul>
+<li>返回一个可以根据实际情况调整线程数量的线程池，任务增多线程增加，任务减少线程减少</li>
+</ul>
+</li>
+<li>newScheduledThreadPool()
+<ul>
+<li>返回可指定线程数量的ScheduledExecutorService对象的定时线程池，可以：1）给定时间执行某任务（schedule()）；2）周期性执行某任务（scheduleAtFixedRate()）；3）固定延迟后，周期性执行某任务（scheduleWithFixedDelay()）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="threadpoolexecutor线程池类">ThreadPoolExecutor线程池类<a hidden class="anchor" aria-hidden="true" href="#threadpoolexecutor线程池类">#</a></h2>
+<ul>
+<li>关键构造函数参数
+<ul>
+<li>corePoolSize：核心线程池的大小，默认情况下，线程池中的线程数为0，当有任务来之后，就会创建一个线程去执行任务，当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到阻塞队列当中</li>
+<li>maximumPoolSize：线程池最大线程数</li>
+<li>keepAliveTime：表示线程没有任务执行时最多保持多久时间会终止。默认情况下，只有当线程池中的线程数大于corePoolSize时，keepAliveTime才会起作用，直到线程池中的线程数不大于corePoolSize</li>
+<li>unit：参数keepAliveTime的时间单位</li>
+<li>workQueue：阻塞队列，用来存储等待执行的任务</li>
+</ul>
+</li>
+<li>关键数据结构
+<ul>
+<li><code>HashSet&lt;Worker&gt; workers</code>：一个worker对应一个线程，线程池通过workers包含多个线程</li>
+<li><code>BlockingQueue&lt;Runnable&gt; workQueue</code>：当线程池中的待处理任务数数超过容量，任务提交后，进入阻塞队列，等待worker线程</li>
+</ul>
+</li>
+<li>关键方法
+<ul>
+<li>execute()：核心方法，向线程池提交一个任务，并执行</li>
+</ul>
+<pre tabindex="0"><code>public void execute(Runnable command) {
+    if (command == null)
+        throw new NullPointerException();
+    int c = ctl.get();
+    // 如果线程池中当前线程数小于核心池大小
+    if (workerCountOf(c) &lt; corePoolSize) {
+        // addWorker
+        if (addWorker(command, true))
+            return;
+        c = ctl.get();
+    }
+    // 如果当前线程池处于RUNNING状态，则将任务放入缓存队列
+    if (isRunning(c) &amp;&amp; workQueue.offer(command)) {
+        int recheck = ctl.get();
+        // 下面：为防止将任务添加进任务缓存队列时，其他线程调用shutdown或shutdownNow关闭线程池
+        if (!isRunning(recheck) &amp;&amp; remove(command))
+            reject(command);
+        else if (workerCountOf(recheck) == 0)
+            addWorker(null, false);
+    }
+    // 否则addWorker
+    else if (!addWorker(command, false))
+        // 如果失败，拒绝任务处理
+        reject(command);
+}
+</code></pre><ul>
+<li>addWorker()</li>
+</ul>
+<pre tabindex="0"><code>Worker w = new Worker(firstTask);
+final Thread t = w.thread;
+// Worker实现Runnable接口，有run方法
+</code></pre></li>
+</ul>
+<h2 id="使用">使用<a hidden class="anchor" aria-hidden="true" href="#使用">#</a></h2>
+<pre tabindex="0"><code>import java.io.Serializable;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+public class ThreadPoolExecutorDemo {
+
+    static int consumeTaskSleepTime = 5;
+
+    public static void main(String[] args) {
+        //构造一个线程池，阻塞队列小，会有部分任务丢失
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 4, 200,
+                TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue&lt;&gt;(5),
+                new ThreadPoolExecutor.DiscardOldestPolicy());
+        // 其中：ThreadPoolExecutor.DiscardOldestPolicy()是任务拒绝策略：丢弃队列最前面的任务，然后重新尝试执行任务
+        for (int i = 1; i &lt;= 20; i++) { //定义最大添加20个线程到线程池中
+            try {
+                //一个任务，并将其加入到线程池
+                String work = &#34;work@ &#34; + i;
+                System.out.println(&#34;put ：&#34; + work);
+                threadPool.execute(new ThreadPoolTask(work));
+                //便于观察，等待一段时间
+                Thread.sleep(1);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 线程池执行的任务
+     */
+    public static class ThreadPoolTask implements Runnable, Serializable {
+        private static final long serialVersionUID = 0;
+        //保存任务所需要的数据
+        private Object threadPoolTaskData;
+
+        ThreadPoolTask(Object works) {
+            this.threadPoolTaskData = works;
+        }
+
+        public void run() {
+            //处理一个任务
+            System.out.println(&#34;start------&#34; + threadPoolTaskData);
+            try {
+                //便于观察，等待一段时间
+                Thread.sleep(consumeTaskSleepTime);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            threadPoolTaskData = null;
+        }
+    }
+}
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/17_lock_optimization/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>锁优化</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/1_overview/">
+    <span class="title">Next »</span>
+    <br>
+    <span>概览</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

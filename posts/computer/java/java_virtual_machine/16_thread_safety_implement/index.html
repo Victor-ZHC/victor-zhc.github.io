@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>线程安全实现 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA, Java虚拟机">
+<meta name="description" content="我有很多办法实现安全，很多种">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="线程安全实现" />
+<meta property="og:description" content="我有很多办法实现安全，很多种" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="线程安全实现"/>
+<meta name="twitter:description" content="我有很多办法实现安全，很多种"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java虚拟机",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "线程安全实现",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "线程安全实现",
+  "name": "线程安全实现",
+  "description": "我有很多办法实现安全，很多种",
+  "keywords": [
+    "JAVA", "Java虚拟机"
+  ],
+  "articleBody": "多线程同步方案 sychronized volatile wait()和notify() Lock 无同步方案 存在一些代码天生就是线程安全的，故不需要同步方案 可重入代码：不依赖在堆上的数据和公用的系统资源、用到的状态量都是由参数传入。即一个方法是可预测的，输入了相同的数据，都能返回相同的结果，就满足可重入性 线程本地存储：共享数据的所有代码在一个线程中执行，就可以把共享数据的看见范围限制在线程之内，“生产者-消费者”模式和web交互模型的“一个请求对应一个服务器线程”就是这类的应用 乐观锁和悲观锁 乐观锁：假设冲突不经常发生，先提交操作，如果失败就重试 悲观锁：假设会发生冲突，有强烈的独占和排他性 乐观锁应用 非阻塞同步 先进行操作，如果没有其他线程争用共享数据，那操作就成功了；如果存在争用，那么便产生了冲突，是一种乐观并发策略 CAS操作 比较并交换，Compare-and-Swap，可以通过一条处理器指令完成 java.util.concurrent.atomic包下的原子类型变量，如：AtomicInteger，使用了底层的JVM支持，为数字类型提供CAS操作 CAS操作会出现ABA问题，解决：不只更新引用值，而是更新引用+版本号，即使出现ABA，版本号也不同 悲观锁应用 互斥同步（Mutual Exclusion \u0026 Synchronization） 保证共享数据在同一时刻只能被一个线程使用，互斥是方法，同步是目的。临界区（Critical Section）、互斥量（Mutex）、信号量（Semaphore）都是实现互斥的手段\nsynchronized关键字 Java中互斥同步的手段就是synchronized关键字，经过编译后，会在同步块前后形成monitorenter和monitorexit两个字节码指令，当执行monitorenter时，首先要尝试获取对象锁，如果对象没有被锁定，或者当前对象已经拥有了锁，就把锁的计数器加1，如果执行到monitorexit时，计数器减1，当计数器为0时，锁就被释放；当获取对象锁失败，线程就要阻塞等待，直到对象锁被另一个线程释放\nReentrantLock重入锁 java.util.concurrent包中的重入锁ReentrantLock实现同步，机制类似，只是一个是API层面的互斥锁，一个是原生语法层面的互斥锁 http://www.cnblogs.com/zhengbin/p/6503412.html\nReentrantLock实现 ReentrantLock实现了Lock接口，内部有三个内部类，Sync、NonfairSync、FairSync，Sync是一个抽象类型，继承AbstractQueuedSynchronizer；AbstractQueuedSynchronizer是一个模板类，实现了许多和锁相关的功能，如tryAcquire，tryRelease等。Sync实现了AbstractQueuedSynchronizer的tryRelease方法。NonfairSync和FairSync两个类继承自Sync，实现了lock方法，然后分别公平抢占和非公平抢占针对tryAcquire有不同的实现。\n流程图(非公平锁抢占) ReentrantLock的lock方法的时候，实际上调用NonfairSync的lock方法，该方法先用CAS操作尝试抢占该锁。如果成功，把当前线程设置在这个锁上，表示抢占成功。如果失败，调用acquire模板方法，等待抢占 acquire方法内部使用tryAcquire这个钩子方法尝试再次获取锁 tryAcquire一旦返回false，就会则进入acquireQueued流程，使用锁队列（本质：双向链表）实现，当前一个节点释放时，当前节点唤醒\n重入锁之所以可以重入，是同一个线程可以反复使用其占用的锁，相当于一个偏向锁 补充：AbstractQueuedSynchronizer（AQS）\nAQS使用一个int类型的volatile变量（命名为：state）维护同步状态 实现锁的获取require()与释放release() 排他模式（exclusive mode）和共享模式（shared mode） require()至少调用一次tryAcquire()，同理release() 与synchronized区别\nsynchronized是原语层面的互斥锁，而ReentrantLock是API层面的互斥锁 都可以线程重入（同一个线程可以反复使用其占用的锁，相当于一个偏向锁） 但ReentrantLock增加的3个功能 等待可中断：持有锁的线程长期不释放锁，等待锁的线程可放弃等待 可实现公平锁：公平锁指：多个线程等待同一个锁时，必须按照申请的顺序依次获得锁（默认是：非公平锁） 锁绑定多个条件：一个ReentrantLock对象可以同时绑定多个Condition对象（多次调用newCondition()方法），而synchronized只能一个（条件：等待某个条件满足前，一直挂起该线程） 关键：1）volatile修饰state，判断是否有加锁；2）AQS同步器实现锁的获取与释放； TryAcquire()方法：如果锁state为0则尝试获取锁，否则：识别获取锁的线程是否为当前占据锁的线程，如果是再次成功获取 信号量Semaphore 信号量是对锁的扩展，sychronized和重入锁ReentrantLock一次只允许一个线程访问一个资源，信号量可以指定多个线程同时访问一个资源 信号量可以用于做流量控制，控制最大并发量 信号量可以控制程序逻辑：singal(S), wait(S) 实现与ReentrantLock一样，依靠继承自AbstractQueuedSynchronizer的Sync实现主要功能，只是调用共享模式的：tryAcquireShared()方法 ",
+  "wordCount" : "60",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/">Java虚拟机</a></div>
+    <h1 class="post-title">
+      线程安全实现
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e5%a4%9a%e7%ba%bf%e7%a8%8b%e5%90%8c%e6%ad%a5%e6%96%b9%e6%a1%88" aria-label="多线程同步方案">多线程同步方案</a></li>
+                <li>
+                    <a href="#%e4%b9%90%e8%a7%82%e9%94%81%e5%92%8c%e6%82%b2%e8%a7%82%e9%94%81" aria-label="乐观锁和悲观锁">乐观锁和悲观锁</a></li>
+                <li>
+                    <a href="#%e4%b9%90%e8%a7%82%e9%94%81%e5%ba%94%e7%94%a8" aria-label="乐观锁应用">乐观锁应用</a><ul>
+                        
+                <li>
+                    <a href="#%e9%9d%9e%e9%98%bb%e5%a1%9e%e5%90%8c%e6%ad%a5" aria-label="非阻塞同步">非阻塞同步</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%82%b2%e8%a7%82%e9%94%81%e5%ba%94%e7%94%a8" aria-label="悲观锁应用">悲观锁应用</a><ul>
+                        
+                <li>
+                    <a href="#%e4%ba%92%e6%96%a5%e5%90%8c%e6%ad%a5mutual-exclusion--synchronization" aria-label="互斥同步（Mutual Exclusion &amp;amp; Synchronization）">互斥同步（Mutual Exclusion &amp; Synchronization）</a><ul>
+                        
+                <li>
+                    <a href="#synchronized%e5%85%b3%e9%94%ae%e5%ad%97" aria-label="synchronized关键字">synchronized关键字</a></li>
+                <li>
+                    <a href="#reentrantlock%e9%87%8d%e5%85%a5%e9%94%81" aria-label="ReentrantLock重入锁">ReentrantLock重入锁</a></li>
+                <li>
+                    <a href="#%e4%bf%a1%e5%8f%b7%e9%87%8fsemaphore" aria-label="信号量Semaphore">信号量Semaphore</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="多线程同步方案">多线程同步方案<a hidden class="anchor" aria-hidden="true" href="#多线程同步方案">#</a></h2>
+<ol>
+<li>sychronized</li>
+<li>volatile</li>
+<li>wait()和notify()</li>
+<li>Lock</li>
+<li>无同步方案
+<ul>
+<li>存在一些代码天生就是线程安全的，故不需要同步方案</li>
+<li>可重入代码：不依赖在堆上的数据和公用的系统资源、用到的状态量都是由参数传入。即一个方法是可预测的，输入了相同的数据，都能返回相同的结果，就满足可重入性</li>
+<li>线程本地存储：共享数据的所有代码在一个线程中执行，就可以把共享数据的看见范围限制在线程之内，“生产者-消费者”模式和web交互模型的“一个请求对应一个服务器线程”就是这类的应用</li>
+</ul>
+</li>
+</ol>
+<h2 id="乐观锁和悲观锁">乐观锁和悲观锁<a hidden class="anchor" aria-hidden="true" href="#乐观锁和悲观锁">#</a></h2>
+<ul>
+<li>乐观锁：假设冲突不经常发生，先提交操作，如果失败就重试</li>
+<li>悲观锁：假设会发生冲突，有强烈的独占和排他性</li>
+</ul>
+<h2 id="乐观锁应用">乐观锁应用<a hidden class="anchor" aria-hidden="true" href="#乐观锁应用">#</a></h2>
+<h3 id="非阻塞同步">非阻塞同步<a hidden class="anchor" aria-hidden="true" href="#非阻塞同步">#</a></h3>
+<ul>
+<li>先进行操作，如果没有其他线程争用共享数据，那操作就成功了；如果存在争用，那么便产生了冲突，是一种乐观并发策略</li>
+<li>CAS操作
+<ul>
+<li>比较并交换，Compare-and-Swap，可以通过一条处理器指令完成</li>
+<li>java.util.concurrent.atomic包下的原子类型变量，如：AtomicInteger，使用了底层的JVM支持，为数字类型提供CAS操作</li>
+<li>CAS操作会出现ABA问题，解决：不只更新引用值，而是更新引用+版本号，即使出现ABA，版本号也不同</li>
+</ul>
+</li>
+</ul>
+<h2 id="悲观锁应用">悲观锁应用<a hidden class="anchor" aria-hidden="true" href="#悲观锁应用">#</a></h2>
+<h3 id="互斥同步mutual-exclusion--synchronization">互斥同步（Mutual Exclusion &amp; Synchronization）<a hidden class="anchor" aria-hidden="true" href="#互斥同步mutual-exclusion--synchronization">#</a></h3>
+<blockquote>
+<p>保证共享数据在同一时刻只能被一个线程使用，互斥是方法，同步是目的。临界区（Critical Section）、互斥量（Mutex）、信号量（Semaphore）都是实现互斥的手段</p>
+</blockquote>
+<h4 id="synchronized关键字">synchronized关键字<a hidden class="anchor" aria-hidden="true" href="#synchronized关键字">#</a></h4>
+<p>Java中互斥同步的手段就是synchronized关键字，经过编译后，会在同步块前后形成monitorenter和monitorexit两个字节码指令，当执行monitorenter时，首先要尝试获取对象锁，如果对象没有被锁定，或者当前对象已经拥有了锁，就把锁的计数器加1，如果执行到monitorexit时，计数器减1，当计数器为0时，锁就被释放；当获取对象锁失败，线程就要阻塞等待，直到对象锁被另一个线程释放</p>
+<h4 id="reentrantlock重入锁">ReentrantLock重入锁<a hidden class="anchor" aria-hidden="true" href="#reentrantlock重入锁">#</a></h4>
+<p>java.util.concurrent包中的重入锁ReentrantLock实现同步，机制类似，只是一个是API层面的互斥锁，一个是原生语法层面的互斥锁
+<a href="http://www.cnblogs.com/zhengbin/p/6503412.html">http://www.cnblogs.com/zhengbin/p/6503412.html</a></p>
+<ul>
+<li>
+<p>ReentrantLock实现
+<img loading="lazy" src="/jvm/img/thread_safety_implement_1.png" alt=""  />
+
+ReentrantLock实现了Lock接口，内部有三个内部类，Sync、NonfairSync、FairSync，Sync是一个抽象类型，继承AbstractQueuedSynchronizer；AbstractQueuedSynchronizer是一个模板类，实现了许多和锁相关的功能，如tryAcquire，tryRelease等。Sync实现了AbstractQueuedSynchronizer的tryRelease方法。NonfairSync和FairSync两个类继承自Sync，实现了lock方法，然后分别公平抢占和非公平抢占针对tryAcquire有不同的实现。</p>
+</li>
+<li>
+<p>流程图(非公平锁抢占)
+<img loading="lazy" src="/jvm/img/thread_safety_implement_2.png" alt=""  />
+</p>
+<ol>
+<li>ReentrantLock的lock方法的时候，实际上调用NonfairSync的lock方法，该方法先用CAS操作尝试抢占该锁。如果成功，把当前线程设置在这个锁上，表示抢占成功。如果失败，调用acquire模板方法，等待抢占</li>
+<li>acquire方法内部使用tryAcquire这个钩子方法尝试再次获取锁</li>
+<li>tryAcquire一旦返回false，就会则进入acquireQueued流程，使用锁队列（本质：双向链表）实现，当前一个节点释放时，当前节点唤醒<br>
+<strong>重入锁之所以可以重入，是同一个线程可以反复使用其占用的锁，相当于一个偏向锁</strong></li>
+</ol>
+</li>
+<li>
+<p>补充：AbstractQueuedSynchronizer（<strong>AQS</strong>）</p>
+<ul>
+<li>AQS使用一个int类型的volatile变量（命名为：state）维护同步状态</li>
+<li>实现锁的获取require()与释放release()</li>
+<li>排他模式（exclusive mode）和共享模式（shared mode）</li>
+<li>require()至少调用一次tryAcquire()，同理release()</li>
+</ul>
+</li>
+<li>
+<p>与synchronized区别</p>
+<ul>
+<li>synchronized是原语层面的互斥锁，而ReentrantLock是API层面的互斥锁</li>
+<li>都可以线程重入（同一个线程可以反复使用其占用的锁，相当于一个偏向锁）</li>
+<li>但ReentrantLock增加的3个功能
+<ol>
+<li>等待可中断：持有锁的线程长期不释放锁，等待锁的线程可放弃等待</li>
+<li>可实现公平锁：公平锁指：多个线程等待同一个锁时，必须按照申请的顺序依次获得锁（默认是：非公平锁）</li>
+<li>锁绑定多个条件：一个ReentrantLock对象可以同时绑定多个Condition对象（多次调用newCondition()方法），而synchronized只能一个（条件：等待某个条件满足前，一直挂起该线程）</li>
+</ol>
+</li>
+<li>关键：1）volatile修饰state，判断是否有加锁；2）AQS同步器实现锁的获取与释放；</li>
+<li>TryAcquire()方法：如果锁state为0则尝试获取锁，否则：识别获取锁的线程是否为当前占据锁的线程，如果是再次成功获取</li>
+</ul>
+</li>
+</ul>
+<h4 id="信号量semaphore">信号量Semaphore<a hidden class="anchor" aria-hidden="true" href="#信号量semaphore">#</a></h4>
+<ul>
+<li>信号量是对锁的扩展，sychronized和重入锁ReentrantLock一次只允许一个线程访问一个资源，信号量可以指定多个线程同时访问一个资源</li>
+<li>信号量可以用于做<strong>流量控制</strong>，控制最大并发量</li>
+<li>信号量可以控制程序逻辑：singal(S), wait(S)</li>
+<li>实现与ReentrantLock一样，依靠继承自AbstractQueuedSynchronizer的Sync实现主要功能，只是调用共享模式的：tryAcquireShared()方法</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/15_thread_safety/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>线程安全</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/17_lock_optimization/">
+    <span class="title">Next »</span>
+    <br>
+    <span>锁优化</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

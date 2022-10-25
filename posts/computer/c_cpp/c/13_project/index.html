@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>编写大型程序 | Victor&#39;s Blog</title>
+<meta name="keywords" content="C">
+<meta name="description" content="其实也很麻烦">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="编写大型程序" />
+<meta property="og:description" content="其实也很麻烦" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="编写大型程序"/>
+<meta name="twitter:description" content="其实也很麻烦"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "C/C++",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "C",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "编写大型程序",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "编写大型程序",
+  "name": "编写大型程序",
+  "description": "其实也很麻烦",
+  "keywords": [
+    "C"
+  ],
+  "articleBody": "源文件 C程序可以分割成任意数量的源文件，源文件的扩展名为.c。\n头文件 源文件之间无法直接相互调用，这时，需要使用#include指令将需要共享的函数原型、宏定义以及类型定义等信息添加到源文件中。保存函数原型、宏定义以及类型定义的文件被称为头文件，通常使用.h作为后缀。\n#include指令 存在三种写法：\n#include\u003c文件名\u003e：用于属于C语言库内的头文件 #include \"文件名\"：用于所有其他的头文件 #include 记号：可以使用记号代替文件名，这样可以按条件进行文件包含 文件名尽量不要写绝对路径名，这样很难进行移植。\n若源文件包含头文件两次，那么可能产生编译错误，可以使用#ifdef和#endif指令来封闭文件内容：\n#ifndef BOOLEAN_H #define BOOLEAN_H #define TRUE 1 #define FALSE 0 typedef int BOOL; #endif BOOLEAN_H本质并无意义，只是用于标记头文件的，避免与其他宏冲突。\n构建多文件程序 makefile 编译大型程序时往往需要在命令行中输入大量的源文件信息，所以出现了makefile的概念，其包含了构建程序的必要信息。通过描述文件间的依赖性来构建程序。\njustify: justify.o word.o line.o gcc -o justify justify.o word.o line.o justify.o: justify.c word.h line.h gcc -c justify.c word.o: word.c word.h gcc -c word.c line.o: line.c line.h gcc -c line.c 每一组称为一条规则，每条规则的第一行给出目标文件，后面是其所有以来。第二行是待执行指令。当一个文件被修改，则依赖链上所有文件将被重新编译。\n",
+  "wordCount" : "61",
+  "inLanguage": "en",
+  "datePublished": "2022-10-21T00:00:00Z",
+  "dateModified": "2022-10-21T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/">C/C&#43;&#43;</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/c/">C</a></div>
+    <h1 class="post-title">
+      编写大型程序
+    </h1>
+    <div class="post-meta"><span title='2022-10-21 00:00:00 +0000 UTC'>October 21, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e6%ba%90%e6%96%87%e4%bb%b6" aria-label="源文件">源文件</a></li>
+                <li>
+                    <a href="#%e5%a4%b4%e6%96%87%e4%bb%b6" aria-label="头文件">头文件</a><ul>
+                        
+                <li>
+                    <a href="#include%e6%8c%87%e4%bb%a4" aria-label="#include指令">#include指令</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e6%9e%84%e5%bb%ba%e5%a4%9a%e6%96%87%e4%bb%b6%e7%a8%8b%e5%ba%8f" aria-label="构建多文件程序">构建多文件程序</a><ul>
+                        
+                <li>
+                    <a href="#makefile" aria-label="makefile">makefile</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="源文件">源文件<a hidden class="anchor" aria-hidden="true" href="#源文件">#</a></h2>
+<p>C程序可以分割成任意数量的源文件，源文件的扩展名为.c。</p>
+<h2 id="头文件">头文件<a hidden class="anchor" aria-hidden="true" href="#头文件">#</a></h2>
+<p>源文件之间无法直接相互调用，这时，需要使用<code>#include</code>指令将需要共享的函数原型、宏定义以及类型定义等信息添加到源文件中。保存函数原型、宏定义以及类型定义的文件被称为头文件，通常使用.h作为后缀。</p>
+<h3 id="include指令">#include指令<a hidden class="anchor" aria-hidden="true" href="#include指令">#</a></h3>
+<p>存在三种写法：</p>
+<ul>
+<li><code>#include&lt;文件名&gt;</code>：用于属于C语言库内的头文件</li>
+<li><code>#include &quot;文件名&quot;</code>：用于所有其他的头文件</li>
+<li><code>#include 记号</code>：可以使用记号代替文件名，这样可以按条件进行文件包含</li>
+</ul>
+<p>文件名尽量不要写绝对路径名，这样很难进行移植。</p>
+<p>若源文件包含头文件两次，那么可能产生编译错误，可以使用<code>#ifdef</code>和<code>#endif</code>指令来封闭文件内容：</p>
+<pre tabindex="0"><code>#ifndef BOOLEAN_H
+#define BOOLEAN_H
+
+#define TRUE 1
+#define FALSE 0
+typedef int BOOL;
+
+#endif
+</code></pre><p>BOOLEAN_H本质并无意义，只是用于标记头文件的，避免与其他宏冲突。</p>
+<h2 id="构建多文件程序">构建多文件程序<a hidden class="anchor" aria-hidden="true" href="#构建多文件程序">#</a></h2>
+<h3 id="makefile">makefile<a hidden class="anchor" aria-hidden="true" href="#makefile">#</a></h3>
+<p>编译大型程序时往往需要在命令行中输入大量的源文件信息，所以出现了makefile的概念，其包含了构建程序的必要信息。通过描述文件间的依赖性来构建程序。</p>
+<pre tabindex="0"><code>justify: justify.o word.o line.o
+        gcc -o justify justify.o word.o line.o
+
+justify.o: justify.c word.h line.h
+        gcc -c justify.c
+
+word.o: word.c word.h
+        gcc -c word.c
+
+line.o: line.c line.h
+        gcc -c line.c
+</code></pre><p>每一组称为一条规则，每条规则的第一行给出目标文件，后面是其所有以来。第二行是待执行指令。当一个文件被修改，则依赖链上所有文件将被重新编译。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/c/">C</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/12_preprocessor/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>预处理器</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/14_struct_union_enum/">
+    <span class="title">Next »</span>
+    <br>
+    <span>结构、联合与枚举</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

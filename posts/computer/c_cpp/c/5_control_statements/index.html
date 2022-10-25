@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>控制语句 | Victor&#39;s Blog</title>
+<meta name="keywords" content="C">
+<meta name="description" content="基本操作">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="控制语句" />
+<meta property="og:description" content="基本操作" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-21T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-21T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="控制语句"/>
+<meta name="twitter:description" content="基本操作"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "C/C++",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "C",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "控制语句",
+      "item": "https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "控制语句",
+  "name": "控制语句",
+  "description": "基本操作",
+  "keywords": [
+    "C"
+  ],
+  "articleBody": "选择语句 逻辑表达式 关系运算符（\u003c、\u003e、\u003e=、\u003c=）判等运算符（==、!=）逻辑运算符（\u0026\u0026、||）连接的表达式，结果返回真（1）或假（0），C语言中==号仅能用于基本类型上的判断，字符串判等需要使用strcmp()函数。\n注：逻辑运算符拥有短路效应。\nif语句 if (bool) { /* statements */ } else if (bool) { /* statements */ } else { /* statements */ } else语句总是与上一个距自己最近的if语句相匹配。\n三元条件表达式 s1 ? s2 : s3;\ns1成立，则s2，否则s3。\nswitch语句 switch(表达式) { case 常量表达式 : /* statements */ ... case 常量表达式 : /* statements */ default : /* statements */ } 一旦传入表达式符合某一常量表达式会将后面所有语句执行，不要忘记在使用break跳出switch。\n循环语句 while语句 while (bool) { /* statements */ } do语句 do { /* statements */ } while (bool); for语句 for (表达式1; 表达式2; 表达式3) { \\\\ 表达式2返回bool类型 /* statements */ } 执行顺序：表达式1 -\u003e 表达式2 -\u003e 语句 -\u003e 表达式3\n退出循环语句 break语句：吧程序控制从包含该语句的最内侧while，do、for或switch语句中转移出来。 continue语句：直接将程序控制转至循环体末尾。 goto语句：直接将程序跳转至程序任意位置。 标识符 : /* statements */ goto 标识符; ",
+  "wordCount" : "105",
+  "inLanguage": "en",
+  "datePublished": "2022-10-21T00:00:00Z",
+  "dateModified": "2022-10-21T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/">C/C&#43;&#43;</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/c_cpp/c/">C</a></div>
+    <h1 class="post-title">
+      控制语句
+    </h1>
+    <div class="post-meta"><span title='2022-10-21 00:00:00 +0000 UTC'>October 21, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e9%80%89%e6%8b%a9%e8%af%ad%e5%8f%a5" aria-label="选择语句">选择语句</a><ul>
+                        
+                <li>
+                    <a href="#%e9%80%bb%e8%be%91%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="逻辑表达式">逻辑表达式</a></li>
+                <li>
+                    <a href="#if%e8%af%ad%e5%8f%a5" aria-label="if语句">if语句</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e5%85%83%e6%9d%a1%e4%bb%b6%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="三元条件表达式">三元条件表达式</a></li>
+                <li>
+                    <a href="#switch%e8%af%ad%e5%8f%a5" aria-label="switch语句">switch语句</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%be%aa%e7%8e%af%e8%af%ad%e5%8f%a5" aria-label="循环语句">循环语句</a><ul>
+                        
+                <li>
+                    <a href="#while%e8%af%ad%e5%8f%a5" aria-label="while语句">while语句</a></li>
+                <li>
+                    <a href="#do%e8%af%ad%e5%8f%a5" aria-label="do语句">do语句</a></li>
+                <li>
+                    <a href="#for%e8%af%ad%e5%8f%a5" aria-label="for语句">for语句</a></li>
+                <li>
+                    <a href="#%e9%80%80%e5%87%ba%e5%be%aa%e7%8e%af%e8%af%ad%e5%8f%a5" aria-label="退出循环语句">退出循环语句</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="选择语句">选择语句<a hidden class="anchor" aria-hidden="true" href="#选择语句">#</a></h2>
+<h3 id="逻辑表达式">逻辑表达式<a hidden class="anchor" aria-hidden="true" href="#逻辑表达式">#</a></h3>
+<p>关系运算符（<code>&lt;</code>、<code>&gt;</code>、<code>&gt;=</code>、<code>&lt;=</code>）判等运算符（<code>==</code>、<code>!=</code>）逻辑运算符（<code>&amp;&amp;</code>、<code>||</code>）连接的表达式，结果返回真（1）或假（0），C语言中<code>==</code>号仅能用于基本类型上的判断，字符串判等需要使用<code>strcmp()</code>函数。</p>
+<p><strong>注</strong>：逻辑运算符拥有短路效应。</p>
+<h3 id="if语句">if语句<a hidden class="anchor" aria-hidden="true" href="#if语句">#</a></h3>
+<pre tabindex="0"><code>if (bool) {
+    /* statements */
+} else if (bool) {
+    /* statements */
+} else {
+    /* statements */
+}
+</code></pre><p>else语句总是与上一个距自己最近的if语句相匹配。</p>
+<h3 id="三元条件表达式">三元条件表达式<a hidden class="anchor" aria-hidden="true" href="#三元条件表达式">#</a></h3>
+<p><code>s1 ? s2 : s3;</code></p>
+<p>s1成立，则s2，否则s3。</p>
+<h3 id="switch语句">switch语句<a hidden class="anchor" aria-hidden="true" href="#switch语句">#</a></h3>
+<pre tabindex="0"><code>switch(表达式) {
+    case 常量表达式 : /* statements */
+    ...
+    case 常量表达式 : /* statements */
+    default : /* statements */
+}
+</code></pre><p>一旦传入表达式符合某一常量表达式会将后面所有语句执行，不要忘记在使用<code>break</code>跳出<code>switch</code>。</p>
+<h2 id="循环语句">循环语句<a hidden class="anchor" aria-hidden="true" href="#循环语句">#</a></h2>
+<h3 id="while语句">while语句<a hidden class="anchor" aria-hidden="true" href="#while语句">#</a></h3>
+<pre tabindex="0"><code>while (bool) {
+    /* statements */
+}
+</code></pre><h3 id="do语句">do语句<a hidden class="anchor" aria-hidden="true" href="#do语句">#</a></h3>
+<pre tabindex="0"><code>do {
+    /* statements */
+} while (bool);
+</code></pre><h3 id="for语句">for语句<a hidden class="anchor" aria-hidden="true" href="#for语句">#</a></h3>
+<pre tabindex="0"><code>for (表达式1; 表达式2; 表达式3) {   \\ 表达式2返回bool类型
+    /* statements */
+}
+</code></pre><p>执行顺序：表达式1 -&gt; 表达式2 -&gt; 语句 -&gt; 表达式3</p>
+<h3 id="退出循环语句">退出循环语句<a hidden class="anchor" aria-hidden="true" href="#退出循环语句">#</a></h3>
+<ul>
+<li><code>break</code>语句：吧程序控制从包含该语句的最内侧<code>while</code>，<code>do</code>、<code>for</code>或<code>switch</code>语句中转移出来。</li>
+<li><code>continue</code>语句：直接将程序控制转至循环体末尾。</li>
+<li><code>goto</code>语句：直接将程序跳转至程序任意位置。</li>
+</ul>
+<pre tabindex="0"><code>标识符 : /* statements */
+
+goto 标识符;
+</code></pre>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/c/">C</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/4_operator/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>运算符</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/c_cpp/c/6_basic_types/">
+    <span class="title">Next »</span>
+    <br>
+    <span>基本类型</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

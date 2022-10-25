@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Collection集合类 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA">
+<meta name="description" content="设计之美">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_basics/1_collection/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Collection集合类" />
+<meta property="og:description" content="设计之美" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_basics/1_collection/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="Collection集合类"/>
+<meta name="twitter:description" content="设计之美"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java基础",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_basics/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "Collection集合类",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_basics/1_collection/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Collection集合类",
+  "name": "Collection集合类",
+  "description": "设计之美",
+  "keywords": [
+    "JAVA"
+  ],
+  "articleBody": "队列接口 接口形式 interface Queue{ void add(E element); E remove(); int size(); } 实现途径 循环列表 链表 集合接口与迭代器接口 集合接口形式 interface Collection{ // 向集合添加元素，如果结果改变了集合，返回true boolean add(E element); // 向集合添加other中的所有元素，如果结果改变了集合，返回true boolean addAll(Collection\u003c? extends E\u003e other); // 返回用于依次访问集合中元素的对象 Iterator iterator(); // 返回当前集合的元素个数 int size(); // 当集合中不存在元素，返回true boolean isEmpty(); // 如果集合中包含一个与obj相同的对象，返回true boolean contains(Object obj); // 如果集合中包含other集合的所有元素，返回true boolean containsAll(Collection\u003c?\u003e other); // 从集合中删除与obj相同的元素，如有对象被删除，返回true boolean remove(Object obj); // 从集合中删除other集合的所有元素，如改变了集合内容，返回true boolean removeAll(Collection\u003c?\u003e other); // 删除集合中的所有元素 void clear(); // 从集合中删除所有与other集合中元素不同的元素，如改变了集合内容，返回true（相交） boolean retainAll(Collection\u003c?\u003e other); // 返回这个集合的对象数组 Object[] toArray(); // 返回这个集合的对象数组，如果arrayToFill足够大，就将元素填入这个数组中，剩余空位 //填null；否则，分配一个新数组，成员类型与arrayToFill一样，长度等于集合长度，并填 //入元素 T[] toArray(T[] arrayToFill); } 迭代器接口形式 interface Iterator{ // 查找下一个元素，与当前指向元素密切相关 E next(); // 判断当前指向的元素后面是否还存在元素 boolean hasNext(); // 移除当前指向的元素，必须配合next函数使用 void remove(); } for each也可用于遍历集合内元素，本质是带有迭代器的循环；可以使用在任何实现了Iterable接口的对象，该接口仅包含一个方法： Iterator iterator() 元素被访问的顺序取决于集合类型，ArrayList被迭代时按照索引从0开始，HashSet被迭代时按照随机的顺序 具体集合 1. 链表 删除元素和在某位置插入元素代价很小 Java中一般是双向链表 在尾部插入元素依靠链表的add方法 在中间插入元素依靠Iterator的add方法 LinkedList采用双向链表实现 2. 数组列表 适合使用get和set方式随机访问元素 ArrayList是非同步的，执行速度快（初始大小为10，按1.5倍速度扩容） Vector类是同步的，不同线程可以安全访问（+capacityIncrement扩容 or 2倍） Stack继承于Vector，实现LIFO，是同步的 3. 散列集 HashMap，线程不安全，参考HashMap HashSet是基于HashMap实现的，线程不安全，不接受重复对象，不支持get(int)获取指定位置元素 散列表（Hashtable）由链表数组实现，每个链表是被称为一个桶（bucket），线程安全 ConcurrentHashMap采用了分段锁的设计，只有在同一个分段内才存在竞态关系，不同的分段锁之间没有锁竞争。默认情况下，可允许16个线程并发无阻塞的操作集合对象。 4. 树集 TreeSet与散列集相似，但是它是有序集合，所有对象都被排序（调用集合元素的compareTo方法） 实现方式是红-黑树，基于comparator比较key放在树的左边还是右边 5. 对象比较 在有序集合中，对象的比较是通过Comparable接口实现 接口中有一个int compareTo(T other)方法。对于a.compareTo(b)来说，当a与b相等，将返回0；a在b之前，返回负值；a在b之后，返回正值 当无法定义Comparable接口时，可以利用Comparator对象实现和Comparable一样的功能，并将其传给TreeSet 6. 队列与双端队列 可以在队列头部和尾部同时添加和删除元素 由ArrayDeque和LinkedList实现 7. 优先级队列 按照任意顺序插入，但是按照优先级的顺序查找 利用堆（heap）实现，本质是一个可以自我调节的二叉树，优先级最高的元素总是在根部 可以实现Comparable接口 8. 映射表 map是键/值对存储的，依靠key来进行索引 两个通用实现，HashMap和TreeMap HashMap对键进行散列后存储，TreeMap对键进行比较后有序的存储 键必须是唯一的 keySet()函数返回的不是HashSet或TreeSet，而是另一个实现了Set的对象 9. 专用集与映射表类 WeakHashMap：当对键的引用只有散列表有引用时，就可以删除键/值对，通过WeakReference对象实现 LinkedHashSet\u0026LinkedHashMap：所有对象被双链表连接，每次在get和put时，条目都会从当前位置删除，挪到链表末尾，可以用于实现“最近最少使用”原则 EnumSet：枚举类型元素集的高效实现，只有静态工厂方法 IdentityHashMap：不适用hashCode函数进行散列，而是通过System.identityHashCode实现，对hash的比较是通过“==”而不是“equals” ",
+  "wordCount" : "161",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_basics/1_collection/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_basics/">Java基础</a></div>
+    <h1 class="post-title">
+      Collection集合类
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e9%98%9f%e5%88%97%e6%8e%a5%e5%8f%a3" aria-label="队列接口">队列接口</a><ul>
+                        
+                <li>
+                    <a href="#%e6%8e%a5%e5%8f%a3%e5%bd%a2%e5%bc%8f" aria-label="接口形式">接口形式</a></li>
+                <li>
+                    <a href="#%e5%ae%9e%e7%8e%b0%e9%80%94%e5%be%84" aria-label="实现途径">实现途径</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e9%9b%86%e5%90%88%e6%8e%a5%e5%8f%a3%e4%b8%8e%e8%bf%ad%e4%bb%a3%e5%99%a8%e6%8e%a5%e5%8f%a3" aria-label="集合接口与迭代器接口">集合接口与迭代器接口</a><ul>
+                        
+                <li>
+                    <a href="#%e9%9b%86%e5%90%88%e6%8e%a5%e5%8f%a3%e5%bd%a2%e5%bc%8f" aria-label="集合接口形式">集合接口形式</a></li>
+                <li>
+                    <a href="#%e8%bf%ad%e4%bb%a3%e5%99%a8%e6%8e%a5%e5%8f%a3%e5%bd%a2%e5%bc%8f" aria-label="迭代器接口形式">迭代器接口形式</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e5%85%b7%e4%bd%93%e9%9b%86%e5%90%88" aria-label="具体集合">具体集合</a><ul>
+                        
+                <li>
+                    <a href="#1-%e9%93%be%e8%a1%a8" aria-label="1. 链表">1. 链表</a></li>
+                <li>
+                    <a href="#2-%e6%95%b0%e7%bb%84%e5%88%97%e8%a1%a8" aria-label="2. 数组列表">2. 数组列表</a></li>
+                <li>
+                    <a href="#3-%e6%95%a3%e5%88%97%e9%9b%86" aria-label="3. 散列集">3. 散列集</a></li>
+                <li>
+                    <a href="#4-%e6%a0%91%e9%9b%86" aria-label="4. 树集">4. 树集</a></li>
+                <li>
+                    <a href="#5-%e5%af%b9%e8%b1%a1%e6%af%94%e8%be%83" aria-label="5. 对象比较">5. 对象比较</a></li>
+                <li>
+                    <a href="#6-%e9%98%9f%e5%88%97%e4%b8%8e%e5%8f%8c%e7%ab%af%e9%98%9f%e5%88%97" aria-label="6. 队列与双端队列">6. 队列与双端队列</a></li>
+                <li>
+                    <a href="#7-%e4%bc%98%e5%85%88%e7%ba%a7%e9%98%9f%e5%88%97" aria-label="7. 优先级队列">7. 优先级队列</a></li>
+                <li>
+                    <a href="#8-%e6%98%a0%e5%b0%84%e8%a1%a8" aria-label="8. 映射表">8. 映射表</a></li>
+                <li>
+                    <a href="#9-%e4%b8%93%e7%94%a8%e9%9b%86%e4%b8%8e%e6%98%a0%e5%b0%84%e8%a1%a8%e7%b1%bb" aria-label="9. 专用集与映射表类">9. 专用集与映射表类</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="队列接口">队列接口<a hidden class="anchor" aria-hidden="true" href="#队列接口">#</a></h2>
+<h3 id="接口形式">接口形式<a hidden class="anchor" aria-hidden="true" href="#接口形式">#</a></h3>
+<pre tabindex="0"><code>interface Queue&lt;E&gt;{
+    void add(E element);
+    E remove();
+    int size();
+}
+</code></pre><h3 id="实现途径">实现途径<a hidden class="anchor" aria-hidden="true" href="#实现途径">#</a></h3>
+<ul>
+<li>循环列表</li>
+<li>链表</li>
+</ul>
+<p><img loading="lazy" src="/java_basics/img/collection_1.png" alt=""  />
+</p>
+<h2 id="集合接口与迭代器接口">集合接口与迭代器接口<a hidden class="anchor" aria-hidden="true" href="#集合接口与迭代器接口">#</a></h2>
+<h3 id="集合接口形式">集合接口形式<a hidden class="anchor" aria-hidden="true" href="#集合接口形式">#</a></h3>
+<pre tabindex="0"><code>interface Collection&lt;E&gt;{
+    // 向集合添加元素，如果结果改变了集合，返回true
+    boolean add(E element);
+    // 向集合添加other中的所有元素，如果结果改变了集合，返回true
+    boolean addAll(Collection&lt;? extends E&gt; other);
+    // 返回用于依次访问集合中元素的对象
+    Iterator&lt;E&gt; iterator();
+    // 返回当前集合的元素个数
+    int size();
+    // 当集合中不存在元素，返回true
+    boolean isEmpty();
+    // 如果集合中包含一个与obj相同的对象，返回true
+    boolean contains(Object obj);
+    // 如果集合中包含other集合的所有元素，返回true
+    boolean containsAll(Collection&lt;?&gt; other);
+    // 从集合中删除与obj相同的元素，如有对象被删除，返回true
+    boolean remove(Object obj);
+    // 从集合中删除other集合的所有元素，如改变了集合内容，返回true
+    boolean removeAll(Collection&lt;?&gt; other); 
+    // 删除集合中的所有元素
+    void clear();
+    // 从集合中删除所有与other集合中元素不同的元素，如改变了集合内容，返回true（相交）
+    boolean retainAll(Collection&lt;?&gt; other);
+    // 返回这个集合的对象数组
+    Object[] toArray();
+    // 返回这个集合的对象数组，如果arrayToFill足够大，就将元素填入这个数组中，剩余空位         
+    //填null；否则，分配一个新数组，成员类型与arrayToFill一样，长度等于集合长度，并填
+    //入元素
+    &lt;T&gt; T[] toArray(T[] arrayToFill);
+}
+</code></pre><h3 id="迭代器接口形式">迭代器接口形式<a hidden class="anchor" aria-hidden="true" href="#迭代器接口形式">#</a></h3>
+<pre tabindex="0"><code>interface Iterator&lt;E&gt;{
+    // 查找下一个元素，与当前指向元素密切相关
+    E next();
+    // 判断当前指向的元素后面是否还存在元素
+    boolean hasNext();
+    // 移除当前指向的元素，必须配合next函数使用
+    void remove();
+}
+</code></pre><ul>
+<li>for each也可用于遍历集合内元素，本质是带有迭代器的循环；可以使用在任何实现了Iterable接口的对象，该接口仅包含一个方法： Iterator<E> iterator()</li>
+<li>元素被访问的顺序取决于集合类型，ArrayList被迭代时按照索引从0开始，HashSet被迭代时按照随机的顺序</li>
+</ul>
+<h2 id="具体集合">具体集合<a hidden class="anchor" aria-hidden="true" href="#具体集合">#</a></h2>
+<h3 id="1-链表">1. 链表<a hidden class="anchor" aria-hidden="true" href="#1-链表">#</a></h3>
+<ul>
+<li>删除元素和在某位置插入元素代价很小</li>
+<li>Java中一般是双向链表</li>
+<li>在尾部插入元素依靠链表的add方法</li>
+<li>在中间插入元素依靠Iterator的add方法</li>
+<li>LinkedList采用双向链表实现</li>
+</ul>
+<h3 id="2-数组列表">2. 数组列表<a hidden class="anchor" aria-hidden="true" href="#2-数组列表">#</a></h3>
+<ul>
+<li>适合使用get和set方式随机访问元素</li>
+<li>ArrayList是非同步的，执行速度快（初始大小为10，按1.5倍速度扩容）</li>
+<li><strong>Vector</strong>类是同步的，不同线程可以安全访问（+capacityIncrement扩容 or 2倍）</li>
+<li>Stack继承于Vector，实现LIFO，是同步的</li>
+</ul>
+<h3 id="3-散列集">3. 散列集<a hidden class="anchor" aria-hidden="true" href="#3-散列集">#</a></h3>
+<ul>
+<li>HashMap，线程不安全，参考<a href="../java_source/hash_map.md">HashMap</a></li>
+<li>HashSet是基于HashMap实现的，线程不安全，不接受重复对象，不支持get(int)获取指定位置元素</li>
+<li>散列表（Hashtable）由链表数组实现，每个链表是被称为一个桶（bucket），线程安全</li>
+<li>ConcurrentHashMap采用了分段锁的设计，只有在同一个分段内才存在竞态关系，不同的分段锁之间没有锁竞争。默认情况下，可允许16个线程并发无阻塞的操作集合对象。</li>
+</ul>
+<h3 id="4-树集">4. 树集<a hidden class="anchor" aria-hidden="true" href="#4-树集">#</a></h3>
+<ul>
+<li>TreeSet与散列集相似，但是它是有序集合，所有对象都被排序（调用集合元素的compareTo方法）</li>
+<li>实现方式是红-黑树，基于comparator比较key放在树的左边还是右边</li>
+</ul>
+<h3 id="5-对象比较">5. 对象比较<a hidden class="anchor" aria-hidden="true" href="#5-对象比较">#</a></h3>
+<ul>
+<li>在有序集合中，对象的比较是通过Comparable接口实现</li>
+<li>接口中有一个int compareTo(T other)方法。对于a.compareTo(b)来说，当a与b相等，将返回0；a在b之前，返回负值；a在b之后，返回正值</li>
+<li>当无法定义Comparable接口时，可以利用Comparator对象实现和Comparable一样的功能，并将其传给TreeSet</li>
+</ul>
+<h3 id="6-队列与双端队列">6. 队列与双端队列<a hidden class="anchor" aria-hidden="true" href="#6-队列与双端队列">#</a></h3>
+<ul>
+<li>可以在队列头部和尾部同时添加和删除元素</li>
+<li>由ArrayDeque和LinkedList实现</li>
+</ul>
+<h3 id="7-优先级队列">7. 优先级队列<a hidden class="anchor" aria-hidden="true" href="#7-优先级队列">#</a></h3>
+<ul>
+<li>按照任意顺序插入，但是按照优先级的顺序查找</li>
+<li>利用堆（heap）实现，本质是一个可以自我调节的二叉树，优先级最高的元素总是在根部</li>
+<li>可以实现Comparable接口</li>
+</ul>
+<h3 id="8-映射表">8. 映射表<a hidden class="anchor" aria-hidden="true" href="#8-映射表">#</a></h3>
+<ul>
+<li>map是键/值对存储的，依靠key来进行索引</li>
+<li>两个通用实现，HashMap和TreeMap</li>
+<li>HashMap对键进行散列后存储，TreeMap对键进行比较后有序的存储</li>
+<li>键必须是唯一的</li>
+<li>keySet()函数返回的不是HashSet或TreeSet，而是另一个实现了Set的对象</li>
+</ul>
+<h3 id="9-专用集与映射表类">9. 专用集与映射表类<a hidden class="anchor" aria-hidden="true" href="#9-专用集与映射表类">#</a></h3>
+<ul>
+<li>WeakHashMap：当对键的引用只有散列表有引用时，就可以删除键/值对，通过WeakReference对象实现</li>
+<li>LinkedHashSet&amp;LinkedHashMap：所有对象被双链表连接，每次在get和put时，条目都会从当前位置删除，挪到链表末尾，可以用于实现“最近最少使用”原则</li>
+<li>EnumSet：枚举类型元素集的高效实现，只有静态工厂方法</li>
+<li>IdentityHashMap：不适用hashCode函数进行散列，而是通过System.identityHashCode实现，对hash的比较是通过“==”而不是“equals”</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/c_cpp/cpp/1_grammer/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>语法</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/java_source/1_string/">
+    <span class="title">Next »</span>
+    <br>
+    <span>String源码</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

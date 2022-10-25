@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java虚拟机 on Victor&#39;s Blog</title>
+    <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/</link>
+    <description>Recent content in Java虚拟机 on Victor&#39;s Blog</description>
+    <image>
+      <url>https://victor-zhc.github.io/papermod-cover.png</url>
+      <link>https://victor-zhc.github.io/papermod-cover.png</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Mon, 24 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>运行时数据区域</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/</guid>
+      <description>原来它们都在这些地方</description>
+    </item>
+    
+    <item>
+      <title>对象创建</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/</guid>
+      <description>对象竟然是这么来的</description>
+    </item>
+    
+    <item>
+      <title>对象内存布局</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/3_object_memory_layout/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/3_object_memory_layout/</guid>
+      <description>对象原来长这样</description>
+    </item>
+    
+    <item>
+      <title>对象访问定位</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/4_object_access_location/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/4_object_access_location/</guid>
+      <description>对象竟然是这样找到的</description>
+    </item>
+    
+    <item>
+      <title>内存废弃对象检测</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/5_discarded_object_detection/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/5_discarded_object_detection/</guid>
+      <description>虽然不想放弃，但是总有别离</description>
+    </item>
+    
+    <item>
+      <title>垃圾回收算法</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/6_garbage_collection/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/6_garbage_collection/</guid>
+      <description>没用的时候，就要立刻抛弃</description>
+    </item>
+    
+    <item>
+      <title>对象在内存中的分配策略</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/7_object_allocation_strategy/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/7_object_allocation_strategy/</guid>
+      <description>原来对象也分出身</description>
+    </item>
+    
+    <item>
+      <title>类加载机制</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/</guid>
+      <description>原来还有这么多门道</description>
+    </item>
+    
+    <item>
+      <title>类加载器</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/9_class_loader/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/9_class_loader/</guid>
+      <description>目前还没见过什么实际应用，了解就好</description>
+    </item>
+    
+    <item>
+      <title>运行时栈帧结构</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/10_run-time_stack_frame_structure/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/10_run-time_stack_frame_structure/</guid>
+      <description>看之前需要一点计算机架构的基础</description>
+    </item>
+    
+    <item>
+      <title>方法调用</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/11_method_call/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/11_method_call/</guid>
+      <description>原来是这么区分同名方法的</description>
+    </item>
+    
+    <item>
+      <title>基于栈的字节码解释执行引擎</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/12_stack_based_bytecode_interpretation_executor/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/12_stack_based_bytecode_interpretation_executor/</guid>
+      <description>基本进入了汇编语言的范畴</description>
+    </item>
+    
+    <item>
+      <title>内存模型</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/13_memory_model/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/13_memory_model/</guid>
+      <description>初窥高迸发</description>
+    </item>
+    
+    <item>
+      <title>线程</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/14_thread/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/14_thread/</guid>
+      <description>和操作系统的线程有一点不一样</description>
+    </item>
+    
+    <item>
+      <title>线程安全</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/15_thread_safety/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/15_thread_safety/</guid>
+      <description>什么才是安全？</description>
+    </item>
+    
+    <item>
+      <title>线程安全实现</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/</guid>
+      <description>我有很多办法实现安全，很多种</description>
+    </item>
+    
+    <item>
+      <title>锁优化</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/17_lock_optimization/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/17_lock_optimization/</guid>
+      <description>锁，也是分很多种滴</description>
+    </item>
+    
+    <item>
+      <title>线程池</title>
+      <link>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/</link>
+      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/</guid>
+      <description>资源也是可以复用的</description>
+    </item>
+    
+  </channel>
+</rss>

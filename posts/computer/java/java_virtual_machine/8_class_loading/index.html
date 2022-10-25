@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>类加载机制 | Victor&#39;s Blog</title>
+<meta name="keywords" content="JAVA, Java虚拟机">
+<meta name="description" content="原来还有这么多门道">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="类加载机制" />
+<meta property="og:description" content="原来还有这么多门道" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="类加载机制"/>
+<meta name="twitter:description" content="原来还有这么多门道"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Java",
+      "item": "https://victor-zhc.github.io/posts/computer/java/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "Java虚拟机",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  5 ,
+      "name": "类加载机制",
+      "item": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "类加载机制",
+  "name": "类加载机制",
+  "description": "原来还有这么多门道",
+  "keywords": [
+    "JAVA", "Java虚拟机"
+  ],
+  "articleBody": " Class文件的生命周期：加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（Initialization）、使用（Using）、卸载（Unloading）\n类的加载时机 遇到new、getstatic、putstatic、invokestatic时，当类没有进行过初始化，则需要先触发其初始化 使用java.lang.reflect包的方法对类进行反射调用的时候 当初始化一个类时，发现其父类没有初始化，则先触发其父类的初始化 虚拟机启动时，会先初始化包含main()方法的类 使用JDK1.7的动态语言支持时，当java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatice、REF_invokeStatic的方法句柄，并且这个方法所对应的句柄所对应的类没有进行初始化 加载（Loading） 通过类的全限定名来获取定义此类的二进制字节流 将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构 在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口 验证（Verification） 文件格式的检验：是否以0xCAFEBABE开头、主次版本号是否在虚拟机处理的范围内等 源数据验证：进行语义校验，防止存在不符合Java语言规范的元数据信息 字节码验证：通过数据流和控制流分析，确定程序语义是合法，符合逻辑的 符号引用验证：对类自身以外的信息进行匹配性校验 准备（Preparation） 正式为类变量（被static修饰的变量）分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。\n在此阶段，类变量如果不是final，则初始值为数据类型的默认值，如果是final，则初始化为被赋的值。\n解析（Resolution） 将常量池内的符号引用替换为直接引用的过程\n符号引用：用符号描述所引用的目标，可以是任何形式的字面量，与虚拟机的内存布局无关 直接引用：是直接指向目标的指针，偏移量或者句柄，与内存的布局有关 初始化（Initialization） 是类加载过程的最后一步 是执行()方法的过程 编译器自动收集类中的所有类变量的赋值动作和静态语句块，静态语句块只能访问到定义在块之前的变量，定义在它之后的变量，只能赋值，不可访问 在子类的()方法执行之前，父类的()方法已经执行完毕 对于类或接口不是必须的，如无静态语句块和变量赋值操作，就不需要生成()方法 接口中不能使用静态语句模块 多线程同时初始化一个类时，只会有一个线程执行()方法，其他线程都要等待()方法被执行完毕 ",
+  "wordCount" : "31",
+  "inLanguage": "en",
+  "datePublished": "2022-10-24T00:00:00Z",
+  "dateModified": "2022-10-24T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/">Java虚拟机</a></div>
+    <h1 class="post-title">
+      类加载机制
+    </h1>
+    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%b1%bb%e7%9a%84%e5%8a%a0%e8%bd%bd%e6%97%b6%e6%9c%ba" aria-label="类的加载时机">类的加载时机</a></li>
+                <li>
+                    <a href="#%e5%8a%a0%e8%bd%bdloading" aria-label="加载（Loading）">加载（Loading）</a></li>
+                <li>
+                    <a href="#%e9%aa%8c%e8%af%81verification" aria-label="验证（Verification）">验证（Verification）</a></li>
+                <li>
+                    <a href="#%e5%87%86%e5%a4%87preparation" aria-label="准备（Preparation）">准备（Preparation）</a></li>
+                <li>
+                    <a href="#%e8%a7%a3%e6%9e%90resolution" aria-label="解析（Resolution）">解析（Resolution）</a></li>
+                <li>
+                    <a href="#%e5%88%9d%e5%a7%8b%e5%8c%96initialization" aria-label="初始化（Initialization）">初始化（Initialization）</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><blockquote>
+<p>Class文件的生命周期：加载（Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化（Initialization）、使用（Using）、卸载（Unloading）</p>
+</blockquote>
+<p><img loading="lazy" src="/jvm/img/class_loading_1.png" alt=""  />
+</p>
+<h2 id="类的加载时机">类的加载时机<a hidden class="anchor" aria-hidden="true" href="#类的加载时机">#</a></h2>
+<ul>
+<li>遇到new、getstatic、putstatic、invokestatic时，当类没有进行过初始化，则需要先触发其初始化</li>
+<li>使用java.lang.reflect包的方法对类进行反射调用的时候</li>
+<li>当初始化一个类时，发现其父类没有初始化，则先触发其父类的初始化</li>
+<li>虚拟机启动时，会先初始化包含main()方法的类</li>
+<li>使用JDK1.7的动态语言支持时，当java.lang.invoke.MethodHandle实例最后的解析结果REF_getStatic、REF_putStatice、REF_invokeStatic的方法句柄，并且这个方法所对应的句柄所对应的类没有进行初始化</li>
+</ul>
+<h2 id="加载loading">加载（Loading）<a hidden class="anchor" aria-hidden="true" href="#加载loading">#</a></h2>
+<ul>
+<li>通过类的全限定名来获取定义此类的二进制字节流</li>
+<li>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构</li>
+<li>在内存中生成一个代表这个类的java.lang.Class对象，作为方法区这个类的各种数据的访问入口</li>
+</ul>
+<h2 id="验证verification">验证（Verification）<a hidden class="anchor" aria-hidden="true" href="#验证verification">#</a></h2>
+<ul>
+<li>文件格式的检验：是否以0xCAFEBABE开头、主次版本号是否在虚拟机处理的范围内等</li>
+<li>源数据验证：进行语义校验，防止存在不符合Java语言规范的元数据信息</li>
+<li>字节码验证：通过数据流和控制流分析，确定程序语义是合法，符合逻辑的</li>
+<li>符号引用验证：对类自身以外的信息进行匹配性校验</li>
+</ul>
+<h2 id="准备preparation">准备（Preparation）<a hidden class="anchor" aria-hidden="true" href="#准备preparation">#</a></h2>
+<p>正式为类变量（被static修饰的变量）分配内存并设置类变量初始值的阶段，这些变量所使用的内存都将在方法区中进行分配。</p>
+<p>在此阶段，类变量如果不是final，则初始值为数据类型的默认值，如果是final，则初始化为被赋的值。</p>
+<h2 id="解析resolution">解析（Resolution）<a hidden class="anchor" aria-hidden="true" href="#解析resolution">#</a></h2>
+<p>将常量池内的符号引用替换为直接引用的过程</p>
+<ul>
+<li>符号引用：用符号描述所引用的目标，可以是任何形式的字面量，与虚拟机的内存布局无关</li>
+<li>直接引用：是直接指向目标的指针，偏移量或者句柄，与内存的布局有关</li>
+</ul>
+<h2 id="初始化initialization">初始化（Initialization）<a hidden class="anchor" aria-hidden="true" href="#初始化initialization">#</a></h2>
+<ul>
+<li>是类加载过程的最后一步</li>
+<li>是执行&lt;clinit&gt;()方法的过程
+<ul>
+<li>编译器自动收集类中的所有类变量的赋值动作和静态语句块，静态语句块只能访问到定义在块之前的变量，定义在它之后的变量，只能赋值，不可访问</li>
+<li>在子类的&lt;clinit&gt;()方法执行之前，父类的&lt;clinit&gt;()方法已经执行完毕</li>
+<li>对于类或接口不是必须的，如无静态语句块和变量赋值操作，就不需要生成&lt;clinit&gt;()方法</li>
+<li>接口中不能使用静态语句模块</li>
+<li>多线程同时初始化一个类时，只会有一个线程执行&lt;clinit&gt;()方法，其他线程都要等待&lt;clinit&gt;()方法被执行完毕</li>
+</ul>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/">Java虚拟机</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/7_object_allocation_strategy/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>对象在内存中的分配策略</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/9_class_loader/">
+    <span class="title">Next »</span>
+    <br>
+    <span>类加载器</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

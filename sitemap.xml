@@ -2,59 +2,176 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/introduction/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/1_introduction/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/cmake/grammer/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/2_key_word/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/cpp/grammer/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/3_io/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/key_word/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/4_operator/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/io/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/5_control_statements/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/operator/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/6_basic_types/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/control_statements/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/7_array/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/basic_types/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/8_function/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/array/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/9_scope/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/function/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/10_pointer/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/scope/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/11_string/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/pointer/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/12_preprocessor/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/string/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/13_project/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/preprocessor/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/14_struct_union_enum/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/project/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/15_statement/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/struct_union_enum/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/16_low_level_programming/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/statement/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/cmake/1_grammer/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/c/low_level_programming/</loc>
+    <loc>https://victor-zhc.github.io/posts/computer/c_cpp/cpp/1_grammer/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_basics/1_collection/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_source/1_string/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_source/2_hash_map/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/1_run-time_data_areas/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/2_create_object/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/3_object_memory_layout/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/4_object_access_location/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/5_discarded_object_detection/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/6_garbage_collection/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/7_object_allocation_strategy/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/8_class_loading/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/9_class_loader/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/10_run-time_stack_frame_structure/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/11_method_call/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/12_stack_based_bytecode_interpretation_executor/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/13_memory_model/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/14_thread/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/15_thread_safety/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/16_thread_safety_implement/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/17_lock_optimization/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/18_thread_pool/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/1_overview/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/2_servlet/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/3_jsp/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/4_ssh/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/5_spring-boot/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/tags/java/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/tags/java%E4%B8%AD%E9%97%B4%E4%BB%B6/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_basics/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_source/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/tags/java%E8%99%9A%E6%8B%9F%E6%9C%BA/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/java/java_virtual_machine/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/tags/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://victor-zhc.github.io/posts/computer/</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://victor-zhc.github.io/tags/c/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
@@ -75,18 +192,6 @@
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://victor-zhc.github.io/posts/computer/c_cpp/cmake/</loc>
-    <lastmod>2022-10-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://victor-zhc.github.io/posts/</loc>
-    <lastmod>2022-10-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://victor-zhc.github.io/tags/</loc>
-    <lastmod>2022-10-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://victor-zhc.github.io/</loc>
-    <lastmod>2022-10-21T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://victor-zhc.github.io/posts/computer/</loc>
     <lastmod>2022-10-21T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://victor-zhc.github.io/categories/</loc>
