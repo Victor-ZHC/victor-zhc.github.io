@@ -9,7 +9,7 @@
       <link>https://victor-zhc.github.io/papermod-cover.png</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Mon, 24 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 31 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://victor-zhc.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>简介</title>
       <link>https://victor-zhc.github.io/posts/computer/c_cpp/c/1_introduction/</link>
@@ -413,6 +413,60 @@
       
       <guid>https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/</guid>
       <description>看看还有什么好用的玩意儿</description>
+    </item>
+    
+    <item>
+      <title>概述</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/1_introduction/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/1_introduction/</guid>
+      <description>进入网络的世界</description>
+    </item>
+    
+    <item>
+      <title>数据链路层</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/</guid>
+      <description>第二层</description>
+    </item>
+    
+    <item>
+      <title>网络层</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/</guid>
+      <description>第三层</description>
+    </item>
+    
+    <item>
+      <title>运输层</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/</guid>
+      <description>第四层</description>
+    </item>
+    
+    <item>
+      <title>应用层</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/5_application_layer/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/5_application_layer/</guid>
+      <description>第五层</description>
+    </item>
+    
+    <item>
+      <title>网络安全</title>
+      <link>https://victor-zhc.github.io/posts/computer/computer_network/6_security/</link>
+      <pubDate>Mon, 31 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://victor-zhc.github.io/posts/computer/computer_network/6_security/</guid>
+      <description>加密技术</description>
     </item>
     
     

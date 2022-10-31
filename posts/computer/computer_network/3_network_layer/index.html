@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>网络层 | Victor&#39;s Blog</title>
+<meta name="keywords" content="network">
+<meta name="description" content="第三层">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="网络层" />
+<meta property="og:description" content="第三层" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-31T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="网络层"/>
+<meta name="twitter:description" content="第三层"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "计算机网络",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "网络层",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "网络层",
+  "name": "网络层",
+  "description": "第三层",
+  "keywords": [
+    "network"
+  ],
+  "articleBody": "网际协议IP 地址解析协议ARP（Address Resolution Protocol） IP地址 -\u003e 物理地址 逆地址解析协议RARP（Reverse Address Resolution Protocol） 物理地址 -\u003e IP地址 网际控制报文协议ICMP（Internet Control Message Protocol） 分为两种：ICMP差错报告报文和ICMP询问报文 网际组管理协议IGMP（Internet Group Management Protocol） 网际协议IP及其配套协议 常用的三种类别的IP地址 A类地址，第一位0 网络号占1个字节（网络数：$2^{7}-2$，除全0全1） 主机号占3个字节（主机数：$2^{24}-2$，除全0全1） B类地址，前两位10 网络号占2个字节（网络数：$2^{14}-1$，除全0） 主机号占2个字节（主机数：$2^{16}-2$，除全0全1） C类地址，前三位110 网络号占3个字节（网络数：$2^{21}-1$，除全0） 主机号占1个字节（主机数：$2^{8}-2$，除全0全1） 私有IP地址范围 A：10.0.0.0 ~ 10.255.255.255 B：172.16.0.0 ~ 172.31.255.255 C：192.168.0.0 ~ 192.168.255.255 IP总分类：5类 A（1-126），B（128-191），C（192-223），D（224-239），E（240-255） IP地址特点 每一个IP地址都由网络号和主机号组成，即：IP地址是一种分等级的地址结构 用转发器或网桥连接起来的若干个局域网仍为一个网络 IP数据报的格式 IP数据报由首部和数据两部分组成，首部由固定部分（20字节）和可变部分组成 标识：每产生一个数据报，计数器+1，当数据报长度超过最大传送单元MTU而必须分片时，标识字段的值被复制到所有数据报片的标识字段中，相同的标识字段值使得分片后的各数据片最后能正确地重装 子网掩码 用于将某个IP地址分成网络地址和主机地址两部分 A类地址的默认子网掩码是255.0.0.0，B类地址的默认子网掩码是255.255.0.0，C类地址的默认子网掩码是255.255.255.0 两类因特网路由选择协议 内部网关协议IGP（Interior Gateway Protocol） 自治系统内部使用的路由选择协议，如：RIP（Routing Information Protocol路由信息协议）和OSPF（Open Shortest Path First开放式最短路径优先） RIP：分布式的基于距离向量的路由选择协议，距离即“跳数”，最大优点：简单 协议特点： 仅和相邻路由器交换信息； 路由器交换的信息是当前本路由器的路由表（全部信息）； 按固定的时间间隔交换路由信息； OSPF：分布式的链路状态协议 协议特点： 向本自治系统的所有路由器发送信息，即：洪泛法（flooding）； 发送的信息是与本路由器相邻的所有路由器的链路状态（部分信息）； 只有当链路状态发生变化时，路由器洪泛此消息； 外部网关协议EGP（External Gateway Protocol） 不同自治系统之间使用的路由选择协议，如：BGP-4（Border Gateway Protocol边界网关协议） 其他IP地址 D类地址，IP地址前4位是1110，地址范围：224.0.0.0~239.255.255.255 网络地址转换NAT Network Address Translation 有助于减缓IP地址空间的枯竭 三种实现方式 静态转换Static Nat：内部网络的私有IP地址转换为公有IP地址，IP地址一对一； 动态转换Dynamic Nat：内部网络的私有IP地址转换为公用IP地址时，IP地址随机； 端口多路复用OverLoad：存在端口转换； ",
+  "wordCount" : "94",
+  "inLanguage": "en",
+  "datePublished": "2022-10-31T00:00:00Z",
+  "dateModified": "2022-10-31T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/computer_network/">计算机网络</a></div>
+    <h1 class="post-title">
+      网络层
+    </h1>
+    <div class="post-meta"><span title='2022-10-31 00:00:00 +0000 UTC'>October 31, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e7%bd%91%e9%99%85%e5%8d%8f%e8%ae%aeip" aria-label="网际协议IP">网际协议IP</a></li>
+                <li>
+                    <a href="#%e7%bd%91%e9%99%85%e5%8d%8f%e8%ae%aeip%e5%8f%8a%e5%85%b6%e9%85%8d%e5%a5%97%e5%8d%8f%e8%ae%ae" aria-label="网际协议IP及其配套协议">网际协议IP及其配套协议</a></li>
+                <li>
+                    <a href="#%e5%b8%b8%e7%94%a8%e7%9a%84%e4%b8%89%e7%a7%8d%e7%b1%bb%e5%88%ab%e7%9a%84ip%e5%9c%b0%e5%9d%80" aria-label="常用的三种类别的IP地址">常用的三种类别的IP地址</a></li>
+                <li>
+                    <a href="#ip%e5%9c%b0%e5%9d%80%e7%89%b9%e7%82%b9" aria-label="IP地址特点">IP地址特点</a></li>
+                <li>
+                    <a href="#ip%e6%95%b0%e6%8d%ae%e6%8a%a5%e7%9a%84%e6%a0%bc%e5%bc%8f" aria-label="IP数据报的格式">IP数据报的格式</a></li>
+                <li>
+                    <a href="#%e5%ad%90%e7%bd%91%e6%8e%a9%e7%a0%81" aria-label="子网掩码">子网掩码</a></li>
+                <li>
+                    <a href="#%e4%b8%a4%e7%b1%bb%e5%9b%a0%e7%89%b9%e7%bd%91%e8%b7%af%e7%94%b1%e9%80%89%e6%8b%a9%e5%8d%8f%e8%ae%ae" aria-label="两类因特网路由选择协议">两类因特网路由选择协议</a></li>
+                <li>
+                    <a href="#%e5%85%b6%e4%bb%96ip%e5%9c%b0%e5%9d%80" aria-label="其他IP地址">其他IP地址</a></li>
+                <li>
+                    <a href="#%e7%bd%91%e7%bb%9c%e5%9c%b0%e5%9d%80%e8%bd%ac%e6%8d%a2nat" aria-label="网络地址转换NAT">网络地址转换NAT</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="网际协议ip">网际协议IP<a hidden class="anchor" aria-hidden="true" href="#网际协议ip">#</a></h2>
+<ul>
+<li>地址解析协议ARP（Address Resolution Protocol）
+<ul>
+<li>IP地址 -&gt; 物理地址</li>
+</ul>
+</li>
+<li>逆地址解析协议RARP（Reverse Address Resolution Protocol）
+<ul>
+<li>物理地址 -&gt; IP地址</li>
+</ul>
+</li>
+<li>网际控制报文协议ICMP（Internet Control Message Protocol）
+<ul>
+<li>分为两种：ICMP差错报告报文和ICMP询问报文</li>
+</ul>
+</li>
+<li>网际组管理协议IGMP（Internet Group Management Protocol）</li>
+</ul>
+<h2 id="网际协议ip及其配套协议">网际协议IP及其配套协议<a hidden class="anchor" aria-hidden="true" href="#网际协议ip及其配套协议">#</a></h2>
+<p><img loading="lazy" src="/computer_network/img/protocol.png" alt=""  />
+</p>
+<h2 id="常用的三种类别的ip地址">常用的三种类别的IP地址<a hidden class="anchor" aria-hidden="true" href="#常用的三种类别的ip地址">#</a></h2>
+<ul>
+<li>A类地址，第一位0
+<ul>
+<li>网络号占1个字节（网络数：$2^{7}-2$，除全0全1）</li>
+<li>主机号占3个字节（主机数：$2^{24}-2$，除全0全1）</li>
+</ul>
+</li>
+<li>B类地址，前两位10
+<ul>
+<li>网络号占2个字节（网络数：$2^{14}-1$，除全0）</li>
+<li>主机号占2个字节（主机数：$2^{16}-2$，除全0全1）</li>
+</ul>
+</li>
+<li>C类地址，前三位110
+<ul>
+<li>网络号占3个字节（网络数：$2^{21}-1$，除全0）</li>
+<li>主机号占1个字节（主机数：$2^{8}-2$，除全0全1）
+<img loading="lazy" src="/computer_network/img/address.png" alt=""  />
+</li>
+</ul>
+</li>
+<li>私有IP地址范围
+<ul>
+<li>A：10.0.0.0 ~ 10.255.255.255</li>
+<li>B：172.16.0.0 ~ 172.31.255.255</li>
+<li>C：192.168.0.0 ~ 192.168.255.255</li>
+</ul>
+</li>
+<li>IP总分类：5类
+<ul>
+<li>A（1-126），B（128-191），C（192-223），D（224-239），E（240-255）</li>
+</ul>
+</li>
+</ul>
+<h2 id="ip地址特点">IP地址特点<a hidden class="anchor" aria-hidden="true" href="#ip地址特点">#</a></h2>
+<ul>
+<li>每一个IP地址都由网络号和主机号组成，即：IP地址是一种分等级的地址结构</li>
+<li>用转发器或网桥连接起来的若干个局域网仍为一个网络</li>
+</ul>
+<h2 id="ip数据报的格式">IP数据报的格式<a hidden class="anchor" aria-hidden="true" href="#ip数据报的格式">#</a></h2>
+<p><img loading="lazy" src="/computer_network/img/IPdatagram.png" alt=""  />
+</p>
+<ul>
+<li>IP数据报由首部和数据两部分组成，首部由固定部分（20字节）和可变部分组成</li>
+<li>标识：每产生一个数据报，计数器+1，当数据报长度超过最大传送单元MTU而必须分片时，标识字段的值被复制到所有数据报片的标识字段中，相同的标识字段值使得分片后的各数据片最后能正确地重装</li>
+</ul>
+<h2 id="子网掩码">子网掩码<a hidden class="anchor" aria-hidden="true" href="#子网掩码">#</a></h2>
+<ul>
+<li>用于将某个IP地址分成网络地址和主机地址两部分
+<img loading="lazy" src="/computer_network/img/subnet_mask.png" alt=""  />
+</li>
+<li>A类地址的默认子网掩码是255.0.0.0，B类地址的默认子网掩码是255.255.0.0，C类地址的默认子网掩码是255.255.255.0</li>
+</ul>
+<h2 id="两类因特网路由选择协议">两类因特网路由选择协议<a hidden class="anchor" aria-hidden="true" href="#两类因特网路由选择协议">#</a></h2>
+<ul>
+<li>内部网关协议IGP（Interior Gateway Protocol）
+<ul>
+<li>自治系统内部使用的路由选择协议，如：RIP（Routing Information Protocol路由信息协议）和OSPF（Open Shortest Path First开放式最短路径优先）</li>
+<li>RIP：分布式的基于距离向量的路由选择协议，距离即“跳数”，最大优点：简单
+<ul>
+<li>协议特点：
+<ol>
+<li>仅和相邻路由器交换信息；</li>
+<li>路由器交换的信息是当前本路由器的路由表（全部信息）；</li>
+<li>按固定的时间间隔交换路由信息；</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>OSPF：分布式的链路状态协议
+<ul>
+<li>协议特点：
+<ol>
+<li>向本自治系统的所有路由器发送信息，即：洪泛法（flooding）；</li>
+<li>发送的信息是与本路由器相邻的所有路由器的链路状态（部分信息）；</li>
+<li>只有当链路状态发生变化时，路由器洪泛此消息；</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>外部网关协议EGP（External Gateway Protocol）
+<ul>
+<li>不同自治系统之间使用的路由选择协议，如：BGP-4（Border Gateway Protocol边界网关协议）</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他ip地址">其他IP地址<a hidden class="anchor" aria-hidden="true" href="#其他ip地址">#</a></h2>
+<ul>
+<li>D类地址，IP地址前4位是1110，地址范围：224.0.0.0~239.255.255.255</li>
+</ul>
+<h2 id="网络地址转换nat">网络地址转换NAT<a hidden class="anchor" aria-hidden="true" href="#网络地址转换nat">#</a></h2>
+<ul>
+<li>Network Address Translation</li>
+<li>有助于减缓IP地址空间的枯竭</li>
+<li>三种实现方式
+<ol>
+<li>静态转换Static Nat：内部网络的私有IP地址转换为公有IP地址，IP地址一对一；</li>
+<li>动态转换Dynamic Nat：内部网络的私有IP地址转换为公用IP地址时，IP地址随机；</li>
+<li>端口多路复用OverLoad：存在端口转换；</li>
+</ol>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/network/">network</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>数据链路层</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/">
+    <span class="title">Next »</span>
+    <br>
+    <span>运输层</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

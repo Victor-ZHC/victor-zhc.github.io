@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>其它 | Victor&#39;s Blog</title>
-<meta name="keywords" content="JAVA, Java中间件">
-<meta name="description" content="看看还有什么好用的玩意儿">
+<title>数据链路层 | Victor&#39;s Blog</title>
+<meta name="keywords" content="network">
+<meta name="description" content="第二层">
 <meta name="author" content="Victor Zhou">
-<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
@@ -54,18 +54,18 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="其它" />
-<meta property="og:description" content="看看还有什么好用的玩意儿" />
+</noscript><meta property="og:title" content="数据链路层" />
+<meta property="og:description" content="第二层" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
-<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-31T00:00:00+00:00" />
 
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
 
-<meta name="twitter:title" content="其它"/>
-<meta name="twitter:description" content="看看还有什么好用的玩意儿"/>
+<meta name="twitter:title" content="数据链路层"/>
+<meta name="twitter:description" content="第二层"/>
 
 
 <script type="application/ld+json">
@@ -88,20 +88,14 @@
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "Java",
-      "item": "https://victor-zhc.github.io/posts/computer/java/"
+      "name": "计算机网络",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/"
     }, 
     {
       "@type": "ListItem",
       "position":  4 ,
-      "name": "Java EE与中间件技术",
-      "item": "https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/"
-    }, 
-    {
-      "@type": "ListItem",
-      "position":  5 ,
-      "name": "其它",
-      "item": "https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/"
+      "name": "数据链路层",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/"
     }
   ]
 }
@@ -110,24 +104,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "其它",
-  "name": "其它",
-  "description": "看看还有什么好用的玩意儿",
+  "headline": "数据链路层",
+  "name": "数据链路层",
+  "description": "第二层",
   "keywords": [
-    "JAVA", "Java中间件"
+    "network"
   ],
-  "articleBody": "JDBC读取数据数据的过程 两种建立数据库连接的方式 DriverManager机制 DataSource机制 两者区别：DataSource是从连接池找一个连接，而DriverManager是创建一个连接 向数据库提交查询请求 读取查询结果 处理查询结果 释放连接 MVC 通过控制器将模型和视图分开，单独开发，易于修改 三部分 View：呈现给用户的界面，JSP或应用GUI Model：封装应用数据，EJB适合 Controller：接受用户动作，并对应用数据进行适当处理，Servlet适合 中间件 定义：在操作系统和应用系统之间的一层软件，为分布式应用的开发、部署、运行和管理提供支持 技术集合 远程过程调用：stub客户端代理，skeleton服务器端代理 远程数据库访问：程序与数据库之间通信，如：JDBC 分布式事务处理：数据库与中间件协议—XA协议，两阶段提交 消息队列 CORBA Common Object Request Broker Architecture，公共对象请求代理程序体系结构 两类Enterprise Bean 会话Bean 同步，非持久的（数据不保存到数据库） 有三种类型： 有状态（Stateful） 使用场景： a. 特定的客户端 b. 需要跨方法调用 c. 客户端需要与其他组件交互 d. 该会话Bean需要与多个EJB交互才能实现 无状态（Stateless） 可以实现Web Service，但是Stateful Bean不行 单例（Singleton） 仅一个会话Bean，可以实现Web Service 消息驱动Bean 异步 Entity Life Cycle 4个状态 New：新建实例，容器用； Managed：有持久性标识符； Detached：分离状态； Removed：删除状态； 方法 persist()：存储到数据库，支持级联更新； merge()：容器决定flush时，数据将同步到数据库中； JMS技术 JMS：Java Message Service 应用：进程间通信，异步传递消息 ",
-  "wordCount" : "68",
+  "articleBody": "封装成帧 在一段数据前后分别添加首部和尾部 帧的数据部分的长度上限–最大传送单元MTU（Maximum Transfer Unit） 帧开始符SOH，帧结束符EOT 出现传输差错：帧丢失、帧重复、帧失序，因此，可以增加：帧编号、确认和重传机制 点对点协议 PPP 需要支持 封装成帧； 差错检测； 检测连接状态； 最大传送单元； 局域网的数据链路层 拆成两个子层，即：逻辑链路控制LLC（Logical Link Control）子层和媒体接入控制MAC（Medium Access Control）子层 CSMA/CD 协议 载波监听多点接入/碰撞检测（Carrier Sense Multiple Access with Collision Detection） 协议的实质是“载波监听”和“碰撞检测” 载波监听：即：发送前先监听，是否有其他站在发送数据 碰撞检测：即：边发送边监听 三种帧 单播（unicast）帧：一对一 广播（broadcast）帧：一对全体 多播（multicast）帧：一对多 虚拟局域网VLAN（Virtual LAN） 由一些局域网网段构成的与物理位置无关的逻辑组 ",
+  "wordCount" : "39",
   "inLanguage": "en",
-  "datePublished": "2022-10-24T00:00:00Z",
-  "dateModified": "2022-10-24T00:00:00Z",
+  "datePublished": "2022-10-31T00:00:00Z",
+  "dateModified": "2022-10-31T00:00:00Z",
   "author":{
     "@type": "Person",
     "name": "Victor Zhou"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/6_other/"
+    "@id": "https://victor-zhc.github.io/posts/computer/computer_network/2_data_link_layer/"
   },
   "publisher": {
     "@type": "Organization",
@@ -203,11 +197,11 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/">Java</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/">Java EE与中间件技术</a></div>
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/computer_network/">计算机网络</a></div>
     <h1 class="post-title">
-      其它
+      数据链路层
     </h1>
-    <div class="post-meta"><span title='2022-10-24 00:00:00 +0000 UTC'>October 24, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+    <div class="post-meta"><span title='2022-10-31 00:00:00 +0000 UTC'>October 31, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
 
 </div>
   </header> <div class="toc">
@@ -218,127 +212,61 @@
 
         <div class="inner"><ul>
                 <li>
-                    <a href="#jdbc%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae%e6%95%b0%e6%8d%ae%e7%9a%84%e8%bf%87%e7%a8%8b" aria-label="JDBC读取数据数据的过程">JDBC读取数据数据的过程</a></li>
+                    <a href="#%e5%b0%81%e8%a3%85%e6%88%90%e5%b8%a7" aria-label="封装成帧">封装成帧</a></li>
                 <li>
-                    <a href="#mvc" aria-label="MVC">MVC</a></li>
+                    <a href="#%e7%82%b9%e5%af%b9%e7%82%b9%e5%8d%8f%e8%ae%ae-ppp" aria-label="点对点协议 PPP">点对点协议 PPP</a></li>
                 <li>
-                    <a href="#%e4%b8%ad%e9%97%b4%e4%bb%b6" aria-label="中间件">中间件</a></li>
+                    <a href="#%e5%b1%80%e5%9f%9f%e7%bd%91%e7%9a%84%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82" aria-label="局域网的数据链路层">局域网的数据链路层</a></li>
                 <li>
-                    <a href="#corba" aria-label="CORBA">CORBA</a></li>
+                    <a href="#csmacd-%e5%8d%8f%e8%ae%ae" aria-label="CSMA/CD 协议">CSMA/CD 协议</a></li>
                 <li>
-                    <a href="#%e4%b8%a4%e7%b1%bbenterprise-bean" aria-label="两类Enterprise Bean">两类Enterprise Bean</a></li>
+                    <a href="#%e4%b8%89%e7%a7%8d%e5%b8%a7" aria-label="三种帧">三种帧</a></li>
                 <li>
-                    <a href="#entity-life-cycle" aria-label="Entity Life Cycle">Entity Life Cycle</a></li>
-                <li>
-                    <a href="#jms%e6%8a%80%e6%9c%af" aria-label="JMS技术">JMS技术</a>
+                    <a href="#%e8%99%9a%e6%8b%9f%e5%b1%80%e5%9f%9f%e7%bd%91vlanvirtual-lan" aria-label="虚拟局域网VLAN（Virtual LAN）">虚拟局域网VLAN（Virtual LAN）</a>
                 </li>
             </ul>
         </div>
     </details>
 </div>
 
-  <div class="post-content"><h2 id="jdbc读取数据数据的过程">JDBC读取数据数据的过程<a hidden class="anchor" aria-hidden="true" href="#jdbc读取数据数据的过程">#</a></h2>
+  <div class="post-content"><h2 id="封装成帧">封装成帧<a hidden class="anchor" aria-hidden="true" href="#封装成帧">#</a></h2>
 <ul>
-<li>两种建立数据库连接的方式
-<ol>
-<li>DriverManager机制</li>
-<li>DataSource机制</li>
-</ol>
-<ul>
-<li>两者区别：DataSource是从连接池找一个连接，而DriverManager是创建一个连接</li>
+<li>在一段数据前后分别添加首部和尾部</li>
+<li>帧的数据部分的长度上限&ndash;最大传送单元MTU（Maximum Transfer Unit）</li>
+<li>帧开始符SOH，帧结束符EOT</li>
+<li>出现传输差错：帧丢失、帧重复、帧失序，因此，可以增加：帧编号、确认和重传机制</li>
 </ul>
-</li>
-<li>向数据库提交查询请求</li>
-<li>读取查询结果</li>
-<li>处理查询结果</li>
-<li>释放连接</li>
-</ul>
-<h2 id="mvc">MVC<a hidden class="anchor" aria-hidden="true" href="#mvc">#</a></h2>
+<h2 id="点对点协议-ppp">点对点协议 PPP<a hidden class="anchor" aria-hidden="true" href="#点对点协议-ppp">#</a></h2>
 <ul>
-<li>通过控制器将模型和视图分开，单独开发，易于修改</li>
-<li>三部分
-<ol>
-<li>View：呈现给用户的界面，JSP或应用GUI</li>
-<li>Model：封装应用数据，EJB适合</li>
-<li>Controller：接受用户动作，并对应用数据进行适当处理，Servlet适合</li>
-</ol>
-</li>
-</ul>
-<h2 id="中间件">中间件<a hidden class="anchor" aria-hidden="true" href="#中间件">#</a></h2>
+<li>需要支持
 <ul>
-<li>定义：在操作系统和应用系统之间的一层软件，为分布式应用的开发、部署、运行和管理提供支持</li>
-<li>技术集合
-<ul>
-<li>远程过程调用：stub客户端代理，skeleton服务器端代理</li>
-<li>远程数据库访问：程序与数据库之间通信，如：JDBC</li>
-<li>分布式事务处理：数据库与中间件协议&mdash;XA协议，两阶段提交</li>
-<li>消息队列</li>
+<li>封装成帧；</li>
+<li>差错检测；</li>
+<li>检测连接状态；</li>
+<li>最大传送单元；</li>
 </ul>
 </li>
 </ul>
-<h2 id="corba">CORBA<a hidden class="anchor" aria-hidden="true" href="#corba">#</a></h2>
+<h2 id="局域网的数据链路层">局域网的数据链路层<a hidden class="anchor" aria-hidden="true" href="#局域网的数据链路层">#</a></h2>
 <ul>
-<li>Common Object Request Broker Architecture，公共对象请求代理程序体系结构</li>
+<li>拆成两个子层，即：逻辑链路控制LLC（Logical Link Control）子层和媒体接入控制MAC（Medium Access Control）子层</li>
 </ul>
-<h2 id="两类enterprise-bean">两类Enterprise Bean<a hidden class="anchor" aria-hidden="true" href="#两类enterprise-bean">#</a></h2>
+<h2 id="csmacd-协议">CSMA/CD 协议<a hidden class="anchor" aria-hidden="true" href="#csmacd-协议">#</a></h2>
 <ul>
-<li>会话Bean
-<ul>
-<li>同步，非持久的（数据不保存到数据库）</li>
-<li>有三种类型：
-<ol>
-<li>有状态（Stateful）
-<ul>
-<li>使用场景：
-a. 特定的客户端
-b. 需要跨方法调用
-c. 客户端需要与其他组件交互
-d. 该会话Bean需要与多个EJB交互才能实现</li>
+<li>载波监听多点接入/碰撞检测（Carrier Sense Multiple Access with Collision Detection）</li>
+<li>协议的实质是“载波监听”和“碰撞检测”</li>
+<li>载波监听：即：发送前先监听，是否有其他站在发送数据</li>
+<li>碰撞检测：即：边发送边监听</li>
 </ul>
-</li>
-<li>无状态（Stateless）
+<h2 id="三种帧">三种帧<a hidden class="anchor" aria-hidden="true" href="#三种帧">#</a></h2>
 <ul>
-<li>可以实现Web Service，但是Stateful Bean不行</li>
+<li>单播（unicast）帧：一对一</li>
+<li>广播（broadcast）帧：一对全体</li>
+<li>多播（multicast）帧：一对多</li>
 </ul>
-</li>
-<li>单例（Singleton）
+<h2 id="虚拟局域网vlanvirtual-lan">虚拟局域网VLAN（Virtual LAN）<a hidden class="anchor" aria-hidden="true" href="#虚拟局域网vlanvirtual-lan">#</a></h2>
 <ul>
-<li>仅一个会话Bean，可以实现Web Service</li>
-</ul>
-</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>消息驱动Bean
-<ul>
-<li>异步</li>
-</ul>
-</li>
-</ul>
-<h2 id="entity-life-cycle">Entity Life Cycle<a hidden class="anchor" aria-hidden="true" href="#entity-life-cycle">#</a></h2>
-<p><img loading="lazy" src="/java_ee/img/lifecycle.png" alt=""  />
-</p>
-<ul>
-<li>4个状态
-<ol>
-<li>New：新建实例，容器用；</li>
-<li>Managed：有持久性标识符；</li>
-<li>Detached：分离状态；</li>
-<li>Removed：删除状态；</li>
-</ol>
-</li>
-<li>方法
-<ul>
-<li>persist()：存储到数据库，支持级联更新；</li>
-<li>merge()：容器决定flush时，数据将同步到数据库中；</li>
-</ul>
-</li>
-</ul>
-<h2 id="jms技术">JMS技术<a hidden class="anchor" aria-hidden="true" href="#jms技术">#</a></h2>
-<ul>
-<li>JMS：Java Message Service</li>
-<li>应用：进程间通信，异步传递消息</li>
+<li>由一些局域网网段构成的与物理位置无关的逻辑组</li>
 </ul>
 
 
@@ -346,19 +274,18 @@ d. 该会话Bean需要与多个EJB交互才能实现</li>
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="https://victor-zhc.github.io/tags/java/">JAVA</a></li>
-      <li><a href="https://victor-zhc.github.io/tags/java%E4%B8%AD%E9%97%B4%E4%BB%B6/">Java中间件</a></li>
+      <li><a href="https://victor-zhc.github.io/tags/network/">network</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://victor-zhc.github.io/posts/computer/java/javaee_and_middleware/5_spring-boot/">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/computer_network/1_introduction/">
     <span class="title">« Prev</span>
     <br>
-    <span>spring-boot</span>
+    <span>概述</span>
   </a>
-  <a class="next" href="https://victor-zhc.github.io/posts/computer/computer_network/1_introduction/">
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/">
     <span class="title">Next »</span>
     <br>
-    <span>概述</span>
+    <span>网络层</span>
   </a>
 </nav>
 

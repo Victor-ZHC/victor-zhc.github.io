@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>运输层 | Victor&#39;s Blog</title>
+<meta name="keywords" content="network">
+<meta name="description" content="第四层">
+<meta name="author" content="Victor Zhou">
+<link rel="canonical" href="https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://victor-zhc.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://victor-zhc.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="运输层" />
+<meta property="og:description" content="第四层" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/" /><meta property="og:image" content="https://victor-zhc.github.io/papermod-cover.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-10-31T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-31T00:00:00+00:00" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://victor-zhc.github.io/papermod-cover.png"/>
+
+<meta name="twitter:title" content="运输层"/>
+<meta name="twitter:description" content="第四层"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://victor-zhc.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "计算机",
+      "item": "https://victor-zhc.github.io/posts/computer/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "计算机网络",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  4 ,
+      "name": "运输层",
+      "item": "https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "运输层",
+  "name": "运输层",
+  "description": "第四层",
+  "keywords": [
+    "network"
+  ],
+  "articleBody": "运输层的两个主要协议 用户数据报协议UDP（User Datagram Protocol） 传输控制协议TCP（Transmission Control Protocol） 运输层通信 看似水平方向传送数据，实际上报文要先传送到IP层，加上IP首部后，再传送到数据链路层，再加上数据链路层的首部和尾部后，才离开主机发送到物理链路 常用端口号 UDP 主要特点 无连接，发送数据前不需要建立连接； 尽最大努力交付； 面向报文的：发送方的UDP对应用程序的报文，添加首部后向下交付给IP层； 首部格式 由四个字段组成，每个字段的长度都是两个字节 字段包括：源端口、目的端口、长度、检验和 IP数据报检验和只检验IP数据报的首部，UDP检验和将首部和数据一起检验 udp包的最大大小是65507 udp数据报只在ip数据报服务上增加了很少的功能，基本复用ip数据报，ip包头有2个byte用于记录总长度（包括首部和数据之和的长度），2个byte最大可表示值为：$2^{16}-1=65535$，运输层udp包头占8字节，网络层IP包头占20字节，因此$65535-28=65507$ TCP 主要特点 面向连接的运输层协议； 两个端点的点对点连接； 提供可靠交付，无差错、不丢失、不重复、按序到达； 提供全双工通信；（两端都设有发送缓存和接收缓存）； 面向字节流； TCP的连接 两个端点即套接字 socket =（IP地址：端口号） 每一条TCP连接唯一被通信两端的两个套接字确定 Socket通信模型 流水线传输 涉及：连续ARQ协议和滑动窗口协议 连续ARQ协议-自动重传请求 P192 发送方维持一个发送窗口，在发送窗口内的分组都可以连续发送出去，而不需要等待对方的确认，目的：提高信道利用率 发送方每收到一个确认，就把发送窗口向前滑动一个分组的位置 接收方采用累积确认，对按序到达的最后一个分组发送确认 工作原理 滑动窗口协议 P198 TCP滑动窗口是以字节为单位的，假设窗口是20字节，确认号是31（表明：序号30为止的数据已经收到了），则：A发送了11个字节的数据情况为： 虽然A的发送窗口是根据B的接收窗口设置的，但同一时刻，A的发送窗口并不总和B的接收窗口一样大，发送方可能根据网络拥塞情况适当减小发送窗口数值 TCP对于不按序到达的数据一般临时存放在接收窗口中，等到字节流中缺少的字节收到后，再按序交付给上层应用 TCP要求接收方必须有累积确认的功能，以此减小传输开销 TCP报文段的首部格式 TCP报文段包括首部和数据两部分 首部格式（至少20字节） 序号：TCP连接中传送的字节流中的每一个字节都按序编号 确认号：若确认号=N，则：到序号N-1为止的所有数据都已经正确收到 紧急URG，=1表示TCP有紧急数据要传送 确认ACK，=1表示确认号字段有效，=0表示无效 窗口，表示接收方的接收缓存空间，明确指出了现在允许对方发送的数据量，窗口值是经常动态变化的 TCP超时重传 TCP采用自适应算法设置运输层的超时重传时间 TCP的流量控制 利用滑动窗口实现流量控制 流量控制：让发送方的发送速率不要太快，使得接收方来得及接收 方式：改变窗口大小 发送方窗口的上限值=Min{接收方窗口rwnd, 拥塞窗口cwnd} TCP拥塞控制 拥塞：对资源的需求和\u003e可用资源 拥塞控制方法：慢开始、拥塞避免、快重传、快恢复 TCP是数据流协议，因此不存在包大小的限制（暂不考虑缓冲区的大小） TCP的运输连接管理 运输连接有三个阶段，即：连接建立、数据传送、连接释放 三次握手建立TCP连接 P216 四次挥手释放TCP连接 P217 ",
+  "wordCount" : "74",
+  "inLanguage": "en",
+  "datePublished": "2022-10-31T00:00:00Z",
+  "dateModified": "2022-10-31T00:00:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Victor Zhou"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://victor-zhc.github.io/posts/computer/computer_network/4_transport_layer/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Victor's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://victor-zhc.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://victor-zhc.github.io/" accesskey="h" title="Victor&#39;s Blog (Alt + H)">Victor&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://victor-zhc.github.io/archives" title="时间轴">
+                    <span>时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/search/" title="搜索">
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://victor-zhc.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://victor-zhc.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/">Posts</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/">计算机</a>&nbsp;»&nbsp;<a href="https://victor-zhc.github.io/posts/computer/computer_network/">计算机网络</a></div>
+    <h1 class="post-title">
+      运输层
+    </h1>
+    <div class="post-meta"><span title='2022-10-31 00:00:00 +0000 UTC'>October 31, 2022</span>&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Victor Zhou
+
+</div>
+  </header> <div class="toc">
+    <details >
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e8%bf%90%e8%be%93%e5%b1%82%e7%9a%84%e4%b8%a4%e4%b8%aa%e4%b8%bb%e8%a6%81%e5%8d%8f%e8%ae%ae" aria-label="运输层的两个主要协议">运输层的两个主要协议</a></li>
+                <li>
+                    <a href="#%e8%bf%90%e8%be%93%e5%b1%82%e9%80%9a%e4%bf%a1" aria-label="运输层通信">运输层通信</a></li>
+                <li>
+                    <a href="#%e5%b8%b8%e7%94%a8%e7%ab%af%e5%8f%a3%e5%8f%b7" aria-label="常用端口号">常用端口号</a></li>
+                <li>
+                    <a href="#udp" aria-label="UDP">UDP</a></li>
+                <li>
+                    <a href="#tcp" aria-label="TCP">TCP</a></li>
+                <li>
+                    <a href="#tcp%e7%9a%84%e8%bf%90%e8%be%93%e8%bf%9e%e6%8e%a5%e7%ae%a1%e7%90%86" aria-label="TCP的运输连接管理">TCP的运输连接管理</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="运输层的两个主要协议">运输层的两个主要协议<a hidden class="anchor" aria-hidden="true" href="#运输层的两个主要协议">#</a></h2>
+<ul>
+<li>用户数据报协议UDP（User Datagram Protocol）</li>
+<li>传输控制协议TCP（Transmission Control Protocol）</li>
+</ul>
+<h2 id="运输层通信">运输层通信<a hidden class="anchor" aria-hidden="true" href="#运输层通信">#</a></h2>
+<ul>
+<li>看似水平方向传送数据，实际上报文要先传送到IP层，加上IP首部后，再传送到数据链路层，再加上数据链路层的首部和尾部后，才离开主机发送到物理链路</li>
+</ul>
+<h2 id="常用端口号">常用端口号<a hidden class="anchor" aria-hidden="true" href="#常用端口号">#</a></h2>
+<p><img loading="lazy" src="/computer_network/img/port.png" alt=""  />
+</p>
+<h2 id="udp">UDP<a hidden class="anchor" aria-hidden="true" href="#udp">#</a></h2>
+<ul>
+<li>主要特点
+<ol>
+<li>无连接，发送数据前不需要建立连接；</li>
+<li>尽最大努力交付；</li>
+<li>面向报文的：发送方的UDP对应用程序的报文，添加首部后向下交付给IP层；</li>
+</ol>
+</li>
+<li>首部格式
+<ul>
+<li>由四个字段组成，每个字段的长度都是两个字节</li>
+<li>字段包括：源端口、目的端口、长度、检验和
+<ul>
+<li>IP数据报检验和只检验IP数据报的首部，UDP检验和将首部和数据一起检验</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>udp包的最大大小是65507
+<ul>
+<li>udp数据报只在ip数据报服务上增加了很少的功能，基本复用ip数据报，ip包头有2个byte用于记录总长度（包括首部和数据之和的长度），2个byte最大可表示值为：$2^{16}-1=65535$，运输层udp包头占8字节，网络层IP包头占20字节，因此$65535-28=65507$</li>
+</ul>
+</li>
+</ul>
+<h2 id="tcp">TCP<a hidden class="anchor" aria-hidden="true" href="#tcp">#</a></h2>
+<ul>
+<li>主要特点
+<ol>
+<li>面向连接的运输层协议；</li>
+<li>两个端点的点对点连接；</li>
+<li>提供可靠交付，无差错、不丢失、不重复、按序到达；</li>
+<li>提供全双工通信；（两端都设有发送缓存和接收缓存）；</li>
+<li>面向字节流；</li>
+</ol>
+</li>
+<li>TCP的连接
+<ul>
+<li>两个端点即套接字 socket =（IP地址：端口号）</li>
+<li>每一条TCP连接唯一被通信两端的两个套接字确定</li>
+<li>Socket通信模型
+<img loading="lazy" src="/computer_network/img/socket.jpeg" alt=""  />
+</li>
+</ul>
+</li>
+<li>流水线传输
+<ul>
+<li>涉及：连续ARQ协议和滑动窗口协议</li>
+<li>连续ARQ协议-自动重传请求 P192
+<ul>
+<li>发送方维持一个发送窗口，在发送窗口内的分组都可以连续发送出去，而不需要等待对方的确认，目的：提高信道利用率</li>
+<li>发送方每收到一个确认，就把发送窗口向前滑动一个分组的位置</li>
+<li>接收方采用累积确认，对按序到达的最后一个分组发送确认</li>
+<li>工作原理
+<img loading="lazy" src="/computer_network/img/arq.png" alt=""  />
+</li>
+</ul>
+</li>
+<li>滑动窗口协议 P198
+<ul>
+<li>TCP滑动窗口是以字节为单位的，假设窗口是20字节，确认号是31（表明：序号30为止的数据已经收到了），则：A发送了11个字节的数据情况为：
+<img loading="lazy" src="/computer_network/img/window.png" alt=""  />
+</li>
+<li>虽然A的发送窗口是根据B的接收窗口设置的，但同一时刻，A的发送窗口并不总和B的接收窗口一样大，发送方可能根据网络拥塞情况适当减小发送窗口数值</li>
+<li>TCP对于不按序到达的数据一般临时存放在接收窗口中，等到字节流中缺少的字节收到后，再按序交付给上层应用</li>
+<li>TCP要求接收方必须有累积确认的功能，以此减小传输开销</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCP报文段的首部格式
+<ul>
+<li>TCP报文段包括首部和数据两部分</li>
+<li>首部格式（至少20字节）
+<img loading="lazy" src="/computer_network/img/tcp.png" alt=""  />
+
+<ul>
+<li>序号：TCP连接中传送的字节流中的每一个字节都按序编号</li>
+<li>确认号：若确认号=N，则：到序号N-1为止的所有数据都已经正确收到</li>
+<li>紧急URG，=1表示TCP有紧急数据要传送</li>
+<li>确认ACK，=1表示确认号字段有效，=0表示无效</li>
+<li>窗口，表示接收方的接收缓存空间，明确指出了现在允许对方发送的数据量，窗口值是经常动态变化的</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCP超时重传
+<ul>
+<li>TCP采用自适应算法设置运输层的超时重传时间</li>
+</ul>
+</li>
+<li>TCP的流量控制
+<ul>
+<li>利用滑动窗口实现流量控制
+<ul>
+<li>流量控制：让发送方的发送速率不要太快，使得接收方来得及接收</li>
+<li>方式：改变窗口大小
+<ul>
+<li>发送方窗口的上限值=Min{接收方窗口rwnd, 拥塞窗口cwnd}</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TCP拥塞控制
+<ul>
+<li>拥塞：对资源的需求和&gt;可用资源</li>
+<li>拥塞控制方法：慢开始、拥塞避免、快重传、快恢复</li>
+</ul>
+</li>
+<li>TCP是数据流协议，因此不存在包大小的限制（暂不考虑缓冲区的大小）</li>
+</ul>
+<h2 id="tcp的运输连接管理">TCP的运输连接管理<a hidden class="anchor" aria-hidden="true" href="#tcp的运输连接管理">#</a></h2>
+<ul>
+<li>运输连接有三个阶段，即：连接建立、数据传送、连接释放</li>
+<li>三次握手建立TCP连接 P216
+<img loading="lazy" src="/computer_network/img/handshake.png" alt=""  />
+</li>
+<li>四次挥手释放TCP连接 P217
+<img loading="lazy" src="/computer_network/img/wavehand.png" alt=""  />
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://victor-zhc.github.io/tags/network/">network</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://victor-zhc.github.io/posts/computer/computer_network/3_network_layer/">
+    <span class="title">« Prev</span>
+    <br>
+    <span>网络层</span>
+  </a>
+  <a class="next" href="https://victor-zhc.github.io/posts/computer/computer_network/5_application_layer/">
+    <span class="title">Next »</span>
+    <br>
+    <span>应用层</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://victor-zhc.github.io/">Victor&#39;s Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
