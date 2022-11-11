@@ -10,7 +10,7 @@
 <meta name="description" content="竟有如此多细节">
 <meta name="author" content="Victor Zhou">
 <link rel="canonical" href="https://victor-zhc.github.io/posts/computer/java/java_source/2_hash_map/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.b183800e2cfbb62c3bce2b2ba56cdb2dd33af76c75cf4550173d5dfebd7c68a6.css" integrity="sha256-sYOADiz7tiw7zisrpWzbLdM692x1z0VQFz1d/r18aKY=" rel="preload stylesheet" as="style">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.879d3f2eda16f76e635cba5a596a6b30012b6808628d985cac2a7ce9cd9cb2c8.css" integrity="sha256-h50/LtoW925jXLpaWWprMAEraAhijZhcrCp86c2cssg=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://victor-zhc.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://victor-zhc.github.io/favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="https://victor-zhc.github.io/favicon-32x32.png">
@@ -1139,7 +1139,30 @@ final Node&lt;K,V&gt; removeNode(int hash, Object key, Object value, boolean mat
   </a>
 </nav>
 
-  </footer>
+  </footer><div style="padding: 10px 0; margin: 20px auto; width: 100%; font-size:16px; text-align: center;">
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+        <span>您的打赏是我创作的动力</span></button>
+    <div id="QR" style="display: block;">
+        <div id="wechat" style="display: inline-block">
+            <a class="fancybox" rel="group">
+                <img id="wechat_qr" src="/images/wechatPay.jpg" alt="WeChat Pay"></a>
+            <p>微信打赏</p>
+        </div>
+        <div id="alipay" style="display: inline-block">
+            <a class="fancybox" rel="group">
+                <img id="alipay_qr" src="/images/aliPay.jpg" alt="Alipay"></a>
+            <p>支付宝打赏</p>
+        </div>
+    </div>
+</div>
+
+<script src="https://utteranc.es/client.js"
+        repo="Victor-ZHC/blogcomments"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
 </article>
     </main>
     
